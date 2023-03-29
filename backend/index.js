@@ -7,10 +7,10 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "cpsc471",
-  database: "test",
+  host: "bloodbond-db.ce2c72ut25c2.ca-central-1.rds.amazonaws.com",
+  user: "admin",
+  password: "bloodbonddb",
+  database: "bbdb",
 });
 
 app.get("/", (req, res) => {
