@@ -1,30 +1,19 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, } from "react-router-dom";
 
-const Home = () => {
+const Donor = () => {
 
 
   const navigate = useNavigate();
 
 
-  const handleClickDoctor = async (e) => {
+  const handleClickDonorAppt = async (e) => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/Doctor");
-       
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleClickDonor = async (e) => {
-    e.preventDefault();
-    try {
-      // Go to specified page
-        navigate("/Donor");
+        navigate("/Donor/DonorAppt");
        
     } catch (err) {
       console.log(err);
@@ -43,16 +32,14 @@ const Home = () => {
   };
 
   return (
-    <div className="home">
-      <div className="header">
+    <div className="mainDiv">
+            <div className="header">
         <button className="backButton" onClick={handleClickBack}>Back</button>
         Logo here
       </div>
-        <h1>Home</h1>
-        <button onClick={handleClickDonor}>Donor</button>
-        <button onClick={handleClickDoctor}>Doctor</button>
+        <button onClick={handleClickDonorAppt}>Book Donation Appointment</button>
     </div>
   );
 };
 
-export default Home;
+export default Donor;

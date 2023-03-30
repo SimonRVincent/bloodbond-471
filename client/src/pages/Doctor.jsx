@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Home = () => {
+const Doctor = () => {
 
 
   const navigate = useNavigate();
@@ -31,28 +31,12 @@ const Home = () => {
     }
   };
 
-  const handleClickBack = async (e) => {
-    e.preventDefault();
-    try {
-      // Go to specified page
-        navigate("/");
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
-    <div className="home">
-      <div className="header">
-        <button className="backButton" onClick={handleClickBack}>Back</button>
-        Logo here
-      </div>
-        <h1>Home</h1>
+    <div className="mainDiv">
         <button onClick={handleClickDonor}>Donor</button>
         <button onClick={handleClickDoctor}>Doctor</button>
     </div>
   );
 };
 
-export default Home;
+export default Doctor;
