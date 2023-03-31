@@ -1,7 +1,6 @@
-import axios from "axios";
+
 import React from "react";
-import { useState } from "react";
-import { Link, useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const DoctorHome = () => {
 
@@ -23,7 +22,7 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome/ResgisterRecipient");
+        navigate("/DoctorHome/RegisterRecipient");
        
     } catch (err) {
       console.log(err);
