@@ -22,7 +22,7 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome/ResgisterRecipient");
+        navigate("/DoctorHome/RegisterRecipient");
        
     } catch (err) {
       console.log(err);

@@ -9,6 +9,7 @@ import DonorAppt from "./pages/DonorAppt";
 import DonorDate from "./pages/DonorDate";
 import DoctorHome from "./pages/DoctorHome";
 import BloodTransfusion from "./pages/BloodTransfusion";
+import RegisterRecipient from "./pages/RegisterRecipient";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/Doctor" element={<Doctor />} />
           <Route path="/DoctorHome" element={<DoctorHome />} />
           <Route path="/DoctorHome/BloodTransfusion" element={<BloodTransfusion />} />
+          <Route path="/DoctorHome/RegisterRecipient" element={<RegisterRecipient />} />
           <Route path="/Donor" element={<Donor />} />
           <Route path="/Donor/DonorAppt" element={<DonorAppt />} />
           <Route path="/Donor/DonorAppt/DonorDate" element={<DonorDate />} />
