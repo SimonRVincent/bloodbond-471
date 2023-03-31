@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
-import { Link, useNavigate, } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 
 const DonorAppt = () => {
 
@@ -12,6 +12,12 @@ const DonorAppt = () => {
     lastname: "",
     age: null,
     sex: "",
+    dob: "",
+    phone: null,
+    email: "",
+    rhfactor: "",
+    bloodtype: "",
+
 
   });
   const [error,setError] = useState(false)
@@ -35,8 +41,9 @@ const DonorAppt = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
+      // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
       await axios.post("http://localhost:8800/books", person);
-      navigate("/");
+      navigate("/Donor/DonorAppt/DonorDate");
     } catch (err) {
       console.log(err);
       setError(true)
@@ -78,9 +85,38 @@ const DonorAppt = () => {
           <option value="female">Female</option>
         </select>
       </label>
-      <button onClick={handleClick}>Add</button>
+      <input
+        type="date"
+        placeholder="DOB"
+        name="dob"
+        onChange={handleChange}
+      />
+      <input
+        type="number"
+        placeholder="Phone number"
+        name="phone"
+        onChange={handleChange}
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        name="email"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        placeholder="Rh factor"
+        name="rhfactor"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        placeholder="Blood type"
+        name="bloodtype"
+        onChange={handleChange}
+      />
+      <button onClick={handleClick}>Continue to booking</button>
       {error && "Something went wrong!"}
-      <Link to="/">See all books</Link>
     </div>
     </div>
   );
