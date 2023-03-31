@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate, } from "react-router-dom";
 
-const DonorDate = () => {
+const BloodTransfusion = () => {
 
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ const DonorDate = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/");
+        navigate("/DoctorHome");
 
     } catch (err) {
       console.log(err);
@@ -65,11 +65,11 @@ const DonorDate = () => {
         onChange={handleChange}
       />
 
-      <button onClick={handleClick}>Complete booking</button>
+      <button onClick={handleClick}>Book transfusion</button>
       {error && "Something went wrong!"}
     </div>
     </div>
   );
 };
 
-export default DonorDate;
+export default BloodTransfusion;
