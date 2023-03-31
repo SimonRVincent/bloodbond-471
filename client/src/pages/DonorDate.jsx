@@ -43,7 +43,7 @@ const DonorDate = () => {
     try {
         // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
       await axios.post("http://localhost:8800/books", appt);
-      navigate("/Donor/DonorAppt/DonorDate");
+      navigate("/");
     } catch (err) {
       console.log(err);
       setError(true)

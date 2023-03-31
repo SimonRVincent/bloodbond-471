@@ -7,6 +7,7 @@ import Donor from "./pages/Donor";
 import Doctor from "./pages/Doctor";
 import DonorAppt from "./pages/DonorAppt";
 import DonorDate from "./pages/DonorDate";
+import DoctorHome from "./pages/DoctorHome";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Doctor" element={<Doctor />} />
+          <Route path="/DoctorHome" element={<DoctorHome />} />
           <Route path="/Donor" element={<Donor />} />
           <Route path="/Donor/DonorAppt" element={<DonorAppt />} />
           <Route path="/Donor/DonorAppt/DonorDate" element={<DonorDate />} />
