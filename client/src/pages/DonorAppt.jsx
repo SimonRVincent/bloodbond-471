@@ -15,12 +15,19 @@ const DonorAppt = () => {
     dob: "",
     phone: null,
     email: "",
-    rhfactor: "",
-    bloodtype: "",
-
+    hcid: null,
 
   });
   const [error,setError] = useState(false)
+
+  // WILL HAVE TO FIGURE OUT HOW WE DEAL WITH BLOOD_ID
+  const [donor, setDonor] = useState({
+    bloodtype: "",
+    rhfactor: "",
+    donorstat: "",
+    hcid: null,
+  });
+
 
 
   const handleChange = (e) => {
@@ -42,7 +49,10 @@ const DonorAppt = () => {
     e.preventDefault();
     try {
       // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
-      await axios.post("http://localhost:8800/books", person);
+      await axios.post("http://localhost:8800/addPerson", person);
+      // If successful, do next post request
+
+      await axios.post("https://localhost:8800/addDonor", donor);
       navigate("/Donor/DonorAppt/DonorDate");
     } catch (err) {
       console.log(err);
@@ -113,6 +123,12 @@ const DonorAppt = () => {
         type="text"
         placeholder="Blood type"
         name="bloodtype"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        placeholder="Health care ID"
+        name="hcid"
         onChange={handleChange}
       />
       <button onClick={handleClick}>Continue to booking</button>
