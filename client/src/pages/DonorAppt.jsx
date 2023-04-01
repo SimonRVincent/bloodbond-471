@@ -13,19 +13,29 @@ const DonorAppt = () => {
     age: null,
     sex: "",
     dob: "",
-    phone: null,
     email: "",
-    rhfactor: "",
-    bloodtype: "",
-
+    hcid: null,
 
   });
   const [error,setError] = useState(false)
 
+  // WILL HAVE TO FIGURE OUT HOW WE DEAL WITH BLOOD_ID
+  const [donor, setDonor] = useState({
+    bloodtype: "",
+    rhfactor: "",
+    donorstat: null,
+    bloodid: "",
+    hcid: null,
+  });
+
+
 
   const handleChange = (e) => {
     setPerson((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setDonor((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  const [insertionResult, setInsertionResult] = useState(null);
 
   const handleClickBack = async (e) => {
     e.preventDefault();
@@ -38,17 +48,60 @@ const DonorAppt = () => {
     }
   };
 
+  
   const handleClick = async (e) => {
     e.preventDefault();
+
     try {
-      // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
-      await axios.post("http://localhost:8800/books", person);
-      navigate("/Donor/DonorAppt/DonorDate");
-    } catch (err) {
-      console.log(err);
-      setError(true)
+
+      const response = await axios.post('http://localhost:8800/addPerson', person);
+
+      setInsertionResult(response.data.message);
+      try {
+        await axios.post("http://localhost:8800/addDonor", donor);
+        navigate("/Donor/DonorAppt/DonorDate");
+      } catch (err) {
+        console.log(err);
+        setError(true)
+      }
+    } catch (error) {
+      if (error.response.status === 409) {
+        setInsertionResult(error.response.data.message);
+        alert("Donor is already registered. Proceeding to booking.");
+        navigate("/Donor/DonorAppt/DonorDate");
+      } else {
+        console.error('Error inserting data:', error);
+      }
     }
   };
+
+  // const handleClick = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await axios.post('http://localhost:8800/checkHcidExists', {
+  //       person,
+  //     });
+  //     if (response.data.exists) {
+  //       alert("Patient is already registered. Proceeding to booking.");
+  //       navigate("/Donor/DonorAppt/DonorDate");
+  //     } else {
+  //       try {
+  //         await axios.post("http://localhost:8800/addPerson", person);
+  //         // If successful, do next post request
+    
+  //         await axios.post("https://localhost:8800/addDonor", donor);
+  //         navigate("/Donor/DonorAppt/DonorDate");
+  //       } catch (err) {
+  //         console.log(err);
+  //         setError(true)
+  //       }
+  //     };
+  //     } catch (error) {
+  //     console.error('Error checking existence:', error);
+  //   }
+  // };
+
 
   return (
     <div className="mainDiv">
@@ -78,9 +131,9 @@ const DonorAppt = () => {
         onChange={handleChange}
       />
         <label>
-        Gender:
+        Sex:
         <select name="sex" onChange={handleChange}>
-          <option value="">Select Gender</option>
+          <option value="">Select Sex</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
@@ -89,12 +142,6 @@ const DonorAppt = () => {
         type="date"
         placeholder="DOB"
         name="dob"
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        placeholder="Phone number"
-        name="phone"
         onChange={handleChange}
       />
       <input
@@ -115,9 +162,16 @@ const DonorAppt = () => {
         name="bloodtype"
         onChange={handleChange}
       />
+      <input
+        type="text"
+        placeholder="Health care ID"
+        name="hcid"
+        onChange={handleChange}
+      />
       <button onClick={handleClick}>Continue to booking</button>
       {error && "Something went wrong!"}
     </div>
+    {insertionResult && <p>{insertionResult}</p>}
     </div>
   );
 };

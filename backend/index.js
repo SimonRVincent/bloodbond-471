@@ -5,6 +5,12 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 const db = mysql.createConnection({
   host: "bloodbond-db.ce2c72ut25c2.ca-central-1.rds.amazonaws.com",
@@ -28,14 +34,84 @@ app.get("/books", (req, res) => {
   });
 });
 
-app.post("/books", (req, res) => {
-  const q = "INSERT INTO books(`title`, `desc`, `price`, `cover`) VALUES (?)";
+app.get('/getBloodtype/:firstname/:lastname', (req, res) => {
+  const firstname = req.params.firstname;
+  const lastname = req.params.lastname;
+  const query = 'SELECT HCID FROM PERSON WHERE First_name = firstname AND Last_name = lastname';
+
+  db.query(query, [firstname, lastname], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).json(result[0]);
+    }
+  });
+});
+
+app.post("/addPerson", (req, res) => {
+  console.log("hcid:", req.body.hcid);
+  const query = "INSERT INTO PERSON (`HCID`, `First_name`, `Last_name`, `DOB`, `Sex`, `Age`, `Email`) VALUES (?)";
 
   const values = [
-    req.body.title,
-    req.body.desc,
-    req.body.price,
-    req.body.cover,
+    req.body.hcid,
+    req.body.firstname,
+    req.body.lastname,
+    req.body.dob,
+    req.body.sex,
+    req.body.age,
+    req.body.email,
+    
+ 
+  ];
+
+  db.query(query, [values], (err, result) => {
+    if (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        res.status(409).json({ message: 'Data already exists in the database.' });
+      } else {
+        console.error(err);
+        res.status(500).send('Server error');
+      }
+    } else {
+      res.status(201).json({ message: 'Data successfully inserted.' });
+    }
+  });
+});
+
+
+
+// app.post("/addPerson", (req, res) => {
+//   const q = "INSERT INTO PERSON(`firstname`, `lastname`, `age`, `sex`, 'dob', 'phone', 'email', 'hcid') VALUES (?)";
+
+//   const values = [
+//     req.body.firstname,
+//     req.body.lastname,
+//     req.body.age,
+//     req.body.sex,
+//     req.body.dob,
+//     req.body.phone,
+//     req.body.email,
+//     req.body.hcid,
+ 
+//   ];
+
+//   db.query(q, [values], (err, data) => {
+//     if (err) return res.send(err);
+//     return res.json(data);
+//   });
+// });
+
+app.post("/addDonor", (req, res) => {
+  const q = "INSERT INTO DONOR (HCID, Blood_ID, RH_factor, Donor_stat, Blood_type) VALUES (?, ?, ?, ?, ?)";
+
+  const values = [
+    req.body.hcid,
+    req.body.hcid,
+    req.body.rhfactor,
+    req.body.donorstat,
+    req.body.bloodtype,
+ 
   ];
 
   db.query(q, [values], (err, data) => {
@@ -85,6 +161,22 @@ app.post('/verifyDoctor', (req, res) => {
   });
 });
 
+app.post('/checkHcidExists', (req, res) => {
+  const valueToCheck = req.body.valueToCheck;
+  const query = `SELECT * FROM PERSON WHERE HCID = ?`;
+
+  db.query(query, [valueToCheck], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).json({ exists: result.length > 0 });
+    }
+  });
+});
+
 app.listen(8800, () => {
   console.log("Connected to backend. Listening on port 8800...");
 });
+
+
