@@ -28,14 +28,35 @@ app.get("/books", (req, res) => {
   });
 });
 
-app.post("/books", (req, res) => {
-  const q = "INSERT INTO books(`title`, `desc`, `price`, `cover`) VALUES (?)";
+app.get('/getBloodtype/:firstname/:lastname', (req, res) => {
+  const firstname = req.params.firstname;
+  const lastname = req.params.lastname;
+  const query = 'SELECT HCID FROM PERSON WHERE First_name = firstname AND Last_name = lastname';
+
+  db.query(query, [firstname, lastname], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).json(result[0]);
+    }
+  });
+});
+
+
+app.post("/addPerson", (req, res) => {
+  const q = "INSERT INTO PERSON(`firstname`, `lastname`, `age`, `sex`, 'dob', 'phone', 'email', 'hcid') VALUES (?)";
 
   const values = [
-    req.body.title,
-    req.body.desc,
-    req.body.price,
-    req.body.cover,
+    req.body.firstname,
+    req.body.lastname,
+    req.body.age,
+    req.body.sex,
+    req.body.dob,
+    req.body.phone,
+    req.body.email,
+    req.body.hcid,
+ 
   ];
 
   db.query(q, [values], (err, data) => {
