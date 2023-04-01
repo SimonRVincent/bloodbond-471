@@ -67,7 +67,7 @@ const DonorAppt = () => {
     } catch (error) {
       if (error.response.status === 409) {
         setInsertionResult(error.response.data.message);
-        alert("Patient is already registered. Proceeding to booking.");
+        alert("Donor is already registered. Proceeding to booking.");
         navigate("/Donor/DonorAppt/DonorDate");
       } else {
         console.error('Error inserting data:', error);
