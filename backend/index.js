@@ -73,7 +73,7 @@ app.put("/books/:id", (req, res) => {
 
 app.post('/verifyDoctor', (req, res) => {
   const valueToCheck = req.body.valueToCheck;
-  const query = `SELECT * FROM DOCTOR WHERE Employee_ID = valueToCheck`;
+  const query = `SELECT * FROM DOCTOR WHERE Employee_ID = ?`;
 
   db.query(query, [valueToCheck], (err, result) => {
     if (err) {

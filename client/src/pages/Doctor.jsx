@@ -18,6 +18,11 @@ const Doctor = () => {
         valueToCheck,
       });
       setCheckResult(response.data.exists);
+      if (response.data.exists) {
+        navigate("/DoctorHome");
+      } else {
+        alert("Invalid ID");
+      }
     } catch (error) {
       console.error('Error checking existence:', error);
     }
@@ -45,7 +50,7 @@ const Doctor = () => {
   
       <form onSubmit={handleSubmit}>
         <label>
-          Value to check:
+          Employee ID:
           <input
             type="text"
             value={valueToCheck}
