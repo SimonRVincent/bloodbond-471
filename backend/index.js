@@ -43,9 +43,8 @@ app.get('/getBloodtype/:firstname/:lastname', (req, res) => {
   });
 });
 
-
-app.post("/addPerson", (req, res) => {
-  const q = "INSERT INTO PERSON(`firstname`, `lastname`, `age`, `sex`, 'dob', 'phone', 'email', 'hcid') VALUES (?)";
+app.post('/addPerson', (req, res) => {
+  const query = 'INSERT INTO your_table_name (your_column_name) VALUES (?)';
 
   const values = [
     req.body.firstname,
@@ -55,6 +54,54 @@ app.post("/addPerson", (req, res) => {
     req.body.dob,
     req.body.phone,
     req.body.email,
+    req.body.hcid,
+ 
+  ];
+
+  db.query(query, [values], (err, result) => {
+    if (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        res.status(409).json({ message: 'Data already exists in the database.' });
+      } else {
+        console.error(err);
+        res.status(500).send('Server error');
+      }
+    } else {
+      res.status(201).json({ message: 'Data successfully inserted.' });
+    }
+  });
+});
+
+
+
+// app.post("/addPerson", (req, res) => {
+//   const q = "INSERT INTO PERSON(`firstname`, `lastname`, `age`, `sex`, 'dob', 'phone', 'email', 'hcid') VALUES (?)";
+
+//   const values = [
+//     req.body.firstname,
+//     req.body.lastname,
+//     req.body.age,
+//     req.body.sex,
+//     req.body.dob,
+//     req.body.phone,
+//     req.body.email,
+//     req.body.hcid,
+ 
+//   ];
+
+//   db.query(q, [values], (err, data) => {
+//     if (err) return res.send(err);
+//     return res.json(data);
+//   });
+// });
+
+app.post("/addDonor", (req, res) => {
+  const q = "INSERT INTO DONOR('bloodtype', 'rh_factor', 'donorstat', 'hcid') VALUES (?)";
+
+  const values = [
+    req.body.bloodtype,
+    req.body.rh_factor,
+    req.body.donorstat,
     req.body.hcid,
  
   ];
@@ -106,6 +153,22 @@ app.post('/verifyDoctor', (req, res) => {
   });
 });
 
+app.post('/checkHcidExists', (req, res) => {
+  const valueToCheck = req.body.valueToCheck;
+  const query = `SELECT * FROM PERSON WHERE HCID = ?`;
+
+  db.query(query, [valueToCheck], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).json({ exists: result.length > 0 });
+    }
+  });
+});
+
 app.listen(8800, () => {
   console.log("Connected to backend. Listening on port 8800...");
 });
+
+

@@ -32,7 +32,10 @@ const DonorAppt = () => {
 
   const handleChange = (e) => {
     setPerson((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setDonor((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  const [insertionResult, setInsertionResult] = useState(null);
 
   const handleClickBack = async (e) => {
     e.preventDefault();
@@ -45,20 +48,60 @@ const DonorAppt = () => {
     }
   };
 
+  
   const handleClick = async (e) => {
     e.preventDefault();
-    try {
-      // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
-      await axios.post("http://localhost:8800/addPerson", person);
-      // If successful, do next post request
 
-      await axios.post("https://localhost:8800/addDonor", donor);
-      navigate("/Donor/DonorAppt/DonorDate");
-    } catch (err) {
-      console.log(err);
-      setError(true)
+    try {
+      const response = await axios.post('http://localhost:3001/addPerson', {
+        person,
+      });
+      setInsertionResult(response.data.message);
+      try {
+        await axios.post("http://localhost:3001/addDonor", donor);
+        navigate("/Donor/DonorAppt/DonorDate");
+      } catch (err) {
+        console.log(err);
+        setError(true)
+      }
+    } catch (error) {
+      if (error.response.status === 409) {
+        setInsertionResult(error.response.data.message);
+        alert("Patient is already registered. Proceeding to booking.");
+        navigate("/Donor/DonorAppt/DonorDate");
+      } else {
+        console.error('Error inserting data:', error);
+      }
     }
   };
+
+  // const handleClick = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await axios.post('http://localhost:8800/checkHcidExists', {
+  //       person,
+  //     });
+  //     if (response.data.exists) {
+  //       alert("Patient is already registered. Proceeding to booking.");
+  //       navigate("/Donor/DonorAppt/DonorDate");
+  //     } else {
+  //       try {
+  //         await axios.post("http://localhost:8800/addPerson", person);
+  //         // If successful, do next post request
+    
+  //         await axios.post("https://localhost:8800/addDonor", donor);
+  //         navigate("/Donor/DonorAppt/DonorDate");
+  //       } catch (err) {
+  //         console.log(err);
+  //         setError(true)
+  //       }
+  //     };
+  //     } catch (error) {
+  //     console.error('Error checking existence:', error);
+  //   }
+  // };
+
 
   return (
     <div className="mainDiv">
@@ -134,6 +177,7 @@ const DonorAppt = () => {
       <button onClick={handleClick}>Continue to booking</button>
       {error && "Something went wrong!"}
     </div>
+    {insertionResult && <p>{insertionResult}</p>}
     </div>
   );
 };
