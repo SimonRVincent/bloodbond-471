@@ -13,7 +13,6 @@ const DonorAppt = () => {
     age: null,
     sex: "",
     dob: "",
-    phone: null,
     email: "",
     hcid: null,
 
@@ -24,7 +23,8 @@ const DonorAppt = () => {
   const [donor, setDonor] = useState({
     bloodtype: "",
     rhfactor: "",
-    donorstat: "",
+    donorstat: null,
+    bloodid: "",
     hcid: null,
   });
 
@@ -53,12 +53,12 @@ const DonorAppt = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3001/addPerson', {
-        person,
-      });
+
+      const response = await axios.post('http://localhost:8800/addPerson', person);
+
       setInsertionResult(response.data.message);
       try {
-        await axios.post("http://localhost:3001/addDonor", donor);
+        await axios.post("http://localhost:8800/addDonor", donor);
         navigate("/Donor/DonorAppt/DonorDate");
       } catch (err) {
         console.log(err);
@@ -131,9 +131,9 @@ const DonorAppt = () => {
         onChange={handleChange}
       />
         <label>
-        Gender:
+        Sex:
         <select name="sex" onChange={handleChange}>
-          <option value="">Select Gender</option>
+          <option value="">Select Sex</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
@@ -142,12 +142,6 @@ const DonorAppt = () => {
         type="date"
         placeholder="DOB"
         name="dob"
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        placeholder="Phone number"
-        name="phone"
         onChange={handleChange}
       />
       <input

@@ -5,6 +5,12 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 const db = mysql.createConnection({
   host: "bloodbond-db.ce2c72ut25c2.ca-central-1.rds.amazonaws.com",
@@ -43,18 +49,19 @@ app.get('/getBloodtype/:firstname/:lastname', (req, res) => {
   });
 });
 
-app.post('/addPerson', (req, res) => {
-  const query = 'INSERT INTO your_table_name (your_column_name) VALUES (?)';
+app.post("/addPerson", (req, res) => {
+  console.log("hcid:", req.body.hcid);
+  const query = "INSERT INTO PERSON (`HCID`, `First_name`, `Last_name`, `DOB`, `Sex`, `Age`, `Email`) VALUES (?)";
 
   const values = [
+    req.body.hcid,
     req.body.firstname,
     req.body.lastname,
-    req.body.age,
-    req.body.sex,
     req.body.dob,
-    req.body.phone,
+    req.body.sex,
+    req.body.age,
     req.body.email,
-    req.body.hcid,
+    
  
   ];
 
@@ -96,13 +103,14 @@ app.post('/addPerson', (req, res) => {
 // });
 
 app.post("/addDonor", (req, res) => {
-  const q = "INSERT INTO DONOR('bloodtype', 'rh_factor', 'donorstat', 'hcid') VALUES (?)";
+  const q = "INSERT INTO DONOR (HCID, Blood_ID, RH_factor, Donor_stat, Blood_type) VALUES (?, ?, ?, ?, ?)";
 
   const values = [
-    req.body.bloodtype,
-    req.body.rh_factor,
-    req.body.donorstat,
     req.body.hcid,
+    req.body.hcid,
+    req.body.rhfactor,
+    req.body.donorstat,
+    req.body.bloodtype,
  
   ];
 
