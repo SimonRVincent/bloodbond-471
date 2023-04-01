@@ -7,17 +7,22 @@ const Doctor = () => {
 
   const navigate = useNavigate();
 
-  const [dID, setDID] = useState({
-    dID: "",
+  const [valueToCheck, setValueToCheck] = useState('');
+  const [checkResult, setCheckResult] = useState(null);
 
-  });
-  const [error,setError] = useState(false)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-
-  const handleChange = (e) => {
-    setDID((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    try {
+      const response = await axios.post('http://localhost:8800/verifyDoctor', {
+        valueToCheck,
+      });
+      setCheckResult(response.data.exists);
+    } catch (error) {
+      console.error('Error checking existence:', error);
+    }
   };
-
+ 
   const handleClickBack = async (e) => {
     e.preventDefault();
     try {
@@ -26,18 +31,6 @@ const Doctor = () => {
 
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-    try {
-        // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
-      await axios.post("http://localhost:8800/books", dID);
-      navigate("/DoctorHome");
-    } catch (err) {
-      console.log(err);
-      setError(true)
     }
   };
 
@@ -50,16 +43,24 @@ const Doctor = () => {
       <div className="form">
       <h1>Enter Doctor ID</h1>
   
-      <input
-        type="text"
-        placeholder="Doctor ID"
-        name="dID"
-        onChange={handleChange}
-      />
+      <form onSubmit={handleSubmit}>
+        <label>
+          Value to check:
+          <input
+            type="text"
+            value={valueToCheck}
+            onChange={(e) => setValueToCheck(e.target.value)}
+          />
+        </label>
+        <button type="submit">Verify</button>
+      </form>
 
-      <button onClick={handleClick}>Login</button>
-      {error && "Something went wrong!"}
+      
     </div>
+
+    {checkResult !== null && (
+        <p>{checkResult ? 'Value exists in database.' : 'Value does not exist in database.'}</p>
+    )}
     </div>
   );
 };

@@ -71,6 +71,20 @@ app.put("/books/:id", (req, res) => {
   });
 });
 
+app.post('/verifyDoctor', (req, res) => {
+  const valueToCheck = req.body.valueToCheck;
+  const query = `SELECT * FROM your_table_name WHERE your_column_name = ?`;
+
+  db.query(query, [valueToCheck], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).json({ exists: result.length > 0 });
+    }
+  });
+});
+
 app.listen(8800, () => {
-  console.log("Connected to backend.");
+  console.log("Connected to backend. Listening on port 8800...");
 });
