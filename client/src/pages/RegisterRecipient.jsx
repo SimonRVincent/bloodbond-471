@@ -13,43 +13,70 @@ const RegisterRecipient = () => {
     age: null,
     sex: "",
     dob: "",
-    phone: null,
     email: "",
-    rhfactor: "",
-    bloodtype: "",
-    healthcondition: "",
+    hcid: null,
 
 
   });
   const [error,setError] = useState(false)
 
+  // WILL HAVE TO FIGURE OUT HOW WE DEAL WITH BLOOD_ID
+  const [recipient, setRecipient] = useState({
+    bloodtype: "",
+    rhfactor: "",
+    donorstat: null,
+    bloodid: "",
+    hcid: null,
+    healthcondition: "",
+  });
+
+
 
   const handleChange = (e) => {
     setPerson((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setRecipient((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  const [insertionResult, setInsertionResult] = useState(null);
 
   const handleClickBack = async (e) => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome");
+        navigate("/");
 
     } catch (err) {
       console.log(err);
     }
   };
 
+  
   const handleClick = async (e) => {
     e.preventDefault();
+
     try {
-      // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
-      await axios.post("http://localhost:8800/books", person);
-      navigate("/DoctorHome");
-    } catch (err) {
-      console.log(err);
-      setError(true)
+
+      const response = await axios.post('http://localhost:8800/addPerson', person);
+
+      setInsertionResult(response.data.message);
+      try {
+        await axios.post("http://localhost:8800/addDonor", recipient);
+        navigate("/DoctorHome");
+
+      } catch (err) {
+        console.log(err);
+        setError(true)
+      }
+    } catch (error) {
+      if (error.response.status === 409) {
+        setInsertionResult(error.response.data.message);
+        alert("Insertion failed. Recipient is already registered.");
+      } else {
+        console.error('Error inserting data:', error);
+      }
     }
   };
+
 
   return (
     <div className="mainDiv">
@@ -79,9 +106,9 @@ const RegisterRecipient = () => {
         onChange={handleChange}
       />
         <label>
-        Gender:
+        Sex:
         <select name="sex" onChange={handleChange}>
-          <option value="">Select Gender</option>
+          <option value="">Select Sex</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
@@ -90,12 +117,6 @@ const RegisterRecipient = () => {
         type="date"
         placeholder="DOB"
         name="dob"
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        placeholder="Phone number"
-        name="phone"
         onChange={handleChange}
       />
       <input
@@ -116,15 +137,22 @@ const RegisterRecipient = () => {
         name="bloodtype"
         onChange={handleChange}
       />
-        <input
+      <input
         type="text"
         placeholder="Health condition"
         name="healthcondition"
         onChange={handleChange}
       />
+      <input
+        type="text"
+        placeholder="Health care ID"
+        name="hcid"
+        onChange={handleChange}
+      />
       <button onClick={handleClick}>Complete registration</button>
       {error && "Something went wrong!"}
     </div>
+    {insertionResult && <p>{insertionResult}</p>}
     </div>
   );
 };

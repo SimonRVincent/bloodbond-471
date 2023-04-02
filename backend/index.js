@@ -135,11 +135,29 @@ app.post("/addDonor", (req, res) => {
   const q = "INSERT INTO DONOR (HCID, Blood_ID, RH_factor, Donor_stat, Blood_type) VALUES (?, ?, ?, ?, ?)";
 
   const values = [
-    req.body.hcid,
+    req.body.bloodid,
+    req.body.blood_type,
+    req.body.donorstat,
     req.body.hcid,
     req.body.rhfactor,
-    req.body.donorstat,
+ 
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.post("/addRecipient", (req, res) => {
+  const q = "INSERT INTO RECIPIENT (HCID, Blood_ID, Blood_type, Health_condition, RH_factor) VALUES (?, ?, ?, ?, ?)";
+
+  const values = [
+    req.body.hcid,
+    req.body.bloodid,
     req.body.bloodtype,
+    req.body.healthcondition,
+    req.body.rhfactor,
  
   ];
 
