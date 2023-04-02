@@ -1,24 +1,34 @@
 import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, } from "react-router-dom";
 
 const BloodInventory = () => {
 
   const navigate = useNavigate();
-
-  const [appt, setAppt] = useState({
-    date: null,
-    time: null,
+  const [blood, setBlood] = useState([]);
 
 
-  });
+  /* TO DO:
+  DISPLAY BLOOD INVENTORY ON SCREEN
+  */
+
+
   const [error,setError] = useState(false)
 
 
-  const handleChange = (e) => {
-    setAppt((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  useEffect(() => {
+    const fetchAllBlood = async () => {
+      try {
+        const res = await axios.get("http://localhost:8800/getBloodInventory");
+        setBlood(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchAllBlood();
+  }, []);
 
   const handleClickBack = async (e) => {
     e.preventDefault();
@@ -31,17 +41,17 @@ const BloodInventory = () => {
     }
   };
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    try {
-        // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
-      await axios.post("http://localhost:8800/books", appt);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-      setError(true)
-    }
-  };
+  // const handleClick = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //       // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
+  //     await axios.post("http://localhost:8800/books", appt);
+  //     navigate("/");
+  //   } catch (err) {
+  //     console.log(err);
+  //     setError(true)
+  //   }
+  // };
 
   return (
     <div className="mainDiv">
@@ -49,25 +59,26 @@ const BloodInventory = () => {
             <button className="backButton" onClick={handleClickBack}>Back</button>
         Logo here
     </div>
-      <div className="form">
-  
-      <input
-        type="date"
-        placeholder="Date"
-        name="date"
-        onChange={handleChange}
-      />
-      
-      <input
-        type="time"
-        placeholder="Time"
-        name="time"
-        onChange={handleChange}
-      />
 
-      <button onClick={handleClick}>Book transfusion</button>
-      {error && "Something went wrong!"}
-    </div>
+    <div className="blood_supply">
+        {blood.map((blood) => (
+          <div key={blood.Inventory_ID} className="blood">
+            <h2>{blood.Blood_ID}</h2>
+            <h2>{blood.Hospital_ID}</h2>
+            <p>{blood.Collection_date}</p>
+            <span>{blood.Expiration_date}</span>
+              {/* <Link
+                to={`/update/${book.id}`}
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                Update
+              </Link> */}
+            
+          </div>
+        ))}
+      </div>
+
+      
     </div>
   );
 };

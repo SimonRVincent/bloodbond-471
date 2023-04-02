@@ -23,8 +23,8 @@ app.get("/", (req, res) => {
   res.json("hello, this is the backend");
 });
 
-app.get("/books", (req, res) => {
-  const q = "SELECT * FROM books";
+app.get("/getBloodInventory", (req, res) => {
+  const q = "SELECT * FROM BLOOD_INVENTORY";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);
