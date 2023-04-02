@@ -65,6 +65,35 @@ app.post("/addPerson", (req, res) => {
  
   ];
 
+
+  db.query(query, [values], (err, result) => {
+    if (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        res.status(409).json({ message: 'Data already exists in the database.' });
+      } else {
+        console.error(err);
+        res.status(500).send('Server error');
+      }
+    } else {
+      res.status(201).json({ message: 'Data successfully inserted.' });
+    }
+  });
+});
+
+app.post("/bookAppointment", (req, res) => {
+  const query = "INSERT INTO APPOINTMENT (`Confirmation_ID`, `Date`, `HCID`, `Location`, `Status`, `Time`) VALUES (?)";
+
+  const values = [
+    req.body.confirmationid,
+    req.body.date,
+    req.body.hcid,
+    req.body.location,
+    req.body.status,
+    req.body.time,
+ 
+  ];
+
+
   db.query(query, [values], (err, result) => {
     if (err) {
       if (err.code === 'ER_DUP_ENTRY') {

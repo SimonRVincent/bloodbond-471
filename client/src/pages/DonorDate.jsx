@@ -2,14 +2,21 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate, } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const DonorDate = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const hcid = location.state.hcid;
 
   const [appt, setAppt] = useState({
     date: null,
     time: null,
+    location: "",
+    hcid: hcid,
+    confirmationid: null,
+    status: 0,
 
 
   });
@@ -35,7 +42,7 @@ const DonorDate = () => {
     e.preventDefault();
     try {
         // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
-      await axios.post("http://localhost:8800/books", appt);
+      await axios.post("http://localhost:8800/bookAppointment", appt);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -64,6 +71,18 @@ const DonorDate = () => {
         name="time"
         onChange={handleChange}
       />
+
+      <label>
+        Location:
+        <select name="location" onChange={handleChange}>
+          <option value="">Select location</option>
+          <option value="St_Johns">St. John's Hospital</option>
+          <option value="Stevenson">Stevenson Ave Health Clinic</option>
+          <option value="McDougall">McDougal Medical Centre</option>
+        </select>
+      </label>
+        
+
 
       <button onClick={handleClick}>Complete booking</button>
       {error && "Something went wrong!"}
