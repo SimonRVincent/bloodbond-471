@@ -65,6 +65,35 @@ app.post("/addPerson", (req, res) => {
  
   ];
 
+
+  db.query(query, [values], (err, result) => {
+    if (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        res.status(409).json({ message: 'Data already exists in the database.' });
+      } else {
+        console.error(err);
+        res.status(500).send('Server error');
+      }
+    } else {
+      res.status(201).json({ message: 'Data successfully inserted.' });
+    }
+  });
+});
+
+app.post("/bookAppointment", (req, res) => {
+  const query = "INSERT INTO APPOINTMENT (`Confirmation_ID`, `Date`, `HCID`, `Location`, `Status`, `Time`) VALUES (?)";
+
+  const values = [
+    req.body.confirmationid,
+    req.body.date,
+    req.body.hcid,
+    req.body.location,
+    req.body.status,
+    req.body.time,
+ 
+  ];
+
+
   db.query(query, [values], (err, result) => {
     if (err) {
       if (err.code === 'ER_DUP_ENTRY') {
@@ -106,11 +135,29 @@ app.post("/addDonor", (req, res) => {
   const q = "INSERT INTO DONOR (HCID, Blood_ID, RH_factor, Donor_stat, Blood_type) VALUES (?, ?, ?, ?, ?)";
 
   const values = [
-    req.body.hcid,
+    req.body.bloodid,
+    req.body.blood_type,
+    req.body.donorstat,
     req.body.hcid,
     req.body.rhfactor,
-    req.body.donorstat,
+ 
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.post("/addRecipient", (req, res) => {
+  const q = "INSERT INTO RECIPIENT (HCID, Blood_ID, Blood_type, Health_condition, RH_factor) VALUES (?, ?, ?, ?, ?)";
+
+  const values = [
+    req.body.hcid,
+    req.body.bloodid,
     req.body.bloodtype,
+    req.body.healthcondition,
+    req.body.rhfactor,
  
   ];
 
@@ -164,6 +211,20 @@ app.post('/verifyDoctor', (req, res) => {
 app.post('/checkHcidExists', (req, res) => {
   const valueToCheck = req.body.valueToCheck;
   const query = `SELECT * FROM PERSON WHERE HCID = ?`;
+
+  db.query(query, [valueToCheck], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).json({ exists: result.length > 0 });
+    }
+  });
+});
+
+app.post('/checkRecipientExists', (req, res) => {
+  const valueToCheck = req.body.valueToCheck;
+  const query = `SELECT * FROM RECIPIENT WHERE HCID = ?`;
 
   db.query(query, [valueToCheck], (err, result) => {
     if (err) {

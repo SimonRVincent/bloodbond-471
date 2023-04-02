@@ -59,7 +59,8 @@ const DonorAppt = () => {
       setInsertionResult(response.data.message);
       try {
         await axios.post("http://localhost:8800/addDonor", donor);
-        navigate("/Donor/DonorAppt/DonorDate");
+        navigate("/Donor/DonorAppt/DonorDate", { state: { hcid: person.hcid } });
+
       } catch (err) {
         console.log(err);
         setError(true)

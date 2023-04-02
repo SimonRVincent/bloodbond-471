@@ -10,11 +10,16 @@ const BloodTransfusion = () => {
   const [appt, setAppt] = useState({
     date: null,
     time: null,
+    location: "",
+    hcid: null,
+    confirmationid: null,
+    status: 0,
 
 
   });
   const [error,setError] = useState(false)
 
+  const [checkResult, setCheckResult] = useState(null);
 
   const handleChange = (e) => {
     setAppt((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -24,7 +29,7 @@ const BloodTransfusion = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome");
+        navigate("/");
 
     } catch (err) {
       console.log(err);
@@ -34,14 +39,22 @@ const BloodTransfusion = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-        // ** HAVE TO EDITN THIS HERE TO POST TO DATABASE **
-      await axios.post("http://localhost:8800/books", appt);
-      navigate("/");
+      // If it doesn't exist then return error and notify user
+      // If it does exist then continue with booking
+      const response = await axios.post('http://localhost:8800/checkRecipientExists', appt.hcid);
+      setCheckResult(response.data.exists);
+      if (response.data.exists) {
+        await axios.post("http://localhost:8800/bookAppointment", appt);
+        navigate("/");
+      } else {
+        alert("HCID not found. Please register recipient.");
+      }
     } catch (err) {
       console.log(err);
       setError(true)
     }
   };
+  
 
   return (
     <div className="mainDiv">
@@ -50,6 +63,13 @@ const BloodTransfusion = () => {
         Logo here
     </div>
       <div className="form">
+
+      <input
+        type="text"
+        placeholder="Health care ID"
+        name="hcid"
+        onChange={handleChange}
+      />
   
       <input
         type="date"
@@ -65,9 +85,24 @@ const BloodTransfusion = () => {
         onChange={handleChange}
       />
 
-      <button onClick={handleClick}>Book transfusion</button>
+      <label>
+        Location:
+        <select name="location" onChange={handleChange}>
+          <option value="">Select location</option>
+          <option value="St_Johns">St. John's Hospital</option>
+          <option value="Stevenson">Stevenson Ave Health Clinic</option>
+          <option value="McDougall">McDougal Medical Centre</option>
+        </select>
+      </label>
+        
+
+
+      <button onClick={handleClick}>Complete booking</button>
       {error && "Something went wrong!"}
     </div>
+    {checkResult !== null && (
+        <p>{checkResult ? 'Value exists in database.' : 'Value does not exist in database.'}</p>
+    )}
     </div>
   );
 };
