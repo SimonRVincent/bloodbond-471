@@ -34,7 +34,7 @@ app.post("/getBloodInventory", (req, res) => {
   });
 });
 
-app.get("/getRecipient", (req, res) => {
+app.post("/getRecipient", (req, res) => {
   const q = "SELECT * FROM RECIPIENT WHERE HCID = ?";
   const hcid = req.body.hcid;
   console.log(hcid);
@@ -43,6 +43,20 @@ app.get("/getRecipient", (req, res) => {
       console.log(err);
       return res.json(err);
     }
+    return res.json(data);
+  });
+});
+
+app.post("/getPerson", (req, res) => {
+  const q = "SELECT * FROM PERSON WHERE HCID = ?";
+  const hcid = req.body.hcid;
+  console.log(hcid);
+  db.query(q, [hcid], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    
     return res.json(data);
   });
 });

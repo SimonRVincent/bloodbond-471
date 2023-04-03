@@ -1,7 +1,6 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RecipientInformation from "./RecipientInformation";
 
 const BloodRequest = () => {
   const navigate = useNavigate();
@@ -9,11 +8,11 @@ const BloodRequest = () => {
   const [insertionResult, setInsertionResult] = useState(null);
   const [insertionResult2, setInsertionResult2] = useState(null);
   const [error, setError] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
 
   const handleChange = (e) => {
     setRecipient((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
 
   const handleClickBack = async (e) => {
     e.preventDefault();
@@ -25,11 +24,6 @@ const BloodRequest = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("insertionResult changed:", insertionResult);
-    console.log("insertionResult2 changed:", insertionResult2);
-  }, [insertionResult, insertionResult2]);
-
   const handleClick = async (e) => {
     e.preventDefault();
     try {
@@ -38,7 +32,7 @@ const BloodRequest = () => {
         recipient
       );
       setInsertionResult(response.data);
-      console.log("insertionResult:", insertionResult);
+      console.log(response.data);
     } catch (error) {
       if (error.response.status === 409) {
         setInsertionResult(null);
@@ -51,32 +45,23 @@ const BloodRequest = () => {
       }
     }
     try {
-      const person = { hcid: recipient.hcid };
-      const response2 = await axios.post(
-        "http://localhost:8800/getPerson",
-        person
-      );
-      setInsertionResult2(response2.data);
+        const person = {hcid: recipient.hcid};
+        const response2 = await axios.post("http://localhost:8800/getPerson", person);
+        setInsertionResult2(response2.data);
+        console.log(response2.data);
     } catch (error) {
-      if (error.response.status === 409) {
-        setInsertionResult2(null);
-        setError(true);
-        alert(
-          "No such recipient exists. Please ensure that the patient is registered."
-        );
-      } else {
-        console.error("Error getting data:", error);
-      }
+        if (error.response.status === 409) {
+            setInsertionResult2(null);
+            setError(true);
+            alert("No such recipient exists. Please ensure that the patient is registered.");
+        } else {
+            console.error("Error getting data:", error);
+        }
     }
-    setShowInfo(true);
   };
 
+  
 
-
-
-  useEffect(() => {
-    setShowInfo(false);
-  }, [recipient]);
 
   return (
     <div className="mainDiv">
@@ -86,11 +71,16 @@ const BloodRequest = () => {
         </button>
         Logo here
       </div>
-      {showInfo ? (
-        <RecipientInformation
-          insertionResult={insertionResult}
-          insertionResult2={insertionResult2}
-        />
+      {insertionResult ? (
+        <div className="recipient-info">
+          <h1>Recipient Information</h1>
+          {/* <p>Name: {insertionResult2.First_name} {insertionResult2.Last_name}</p> */}
+          <p>Blood type: {insertionResult.Blood_type}</p>
+          <p>Rh factor: {insertionResult.Rh_factor}</p>
+          {/* <p>Sex: {insertionResult2.Sex}</p> */}
+          <p>Health condition: {insertionResult.Health_condition}</p>
+          
+        </div>
       ) : (
         <div className="form">
           <h1>Enter Recipient HCID</h1>
