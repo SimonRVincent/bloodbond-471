@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
   res.json("hello, this is the backend");
 });
 
-app.get("/getBloodInventory", (req, res) => {
+app.post("/getBloodInventory", (req, res) => {
   const q = "SELECT * FROM BLOOD_INVENTORY";
   db.query(q, (err, data) => {
     if (err) {
@@ -33,6 +33,20 @@ app.get("/getBloodInventory", (req, res) => {
     return res.json(data);
   });
 });
+
+app.get("/getRecipient", (req, res) => {
+  const q = "SELECT * FROM RECIPIENT WHERE HCID = ?";
+  const hcid = req.body.hcid;
+  console.log(hcid);
+  db.query(q, [hcid], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
 
 app.get('/getBloodtype/:firstname/:lastname', (req, res) => {
   const firstname = req.params.firstname;
