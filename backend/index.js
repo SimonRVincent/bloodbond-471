@@ -23,8 +23,8 @@ app.get("/", (req, res) => {
   res.json("hello, this is the backend");
 });
 
-app.get("/books", (req, res) => {
-  const q = "SELECT * FROM books";
+app.post("/getBloodInventory", (req, res) => {
+  const q = "SELECT * FROM BLOOD_INVENTORY";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);
@@ -33,6 +33,53 @@ app.get("/books", (req, res) => {
     return res.json(data);
   });
 });
+
+app.post("/getRecipient", (req, res) => {
+  const q = "SELECT * FROM RECIPIENT WHERE HCID = ?";
+  const hcid = req.body.hcid;
+  console.log(hcid);
+  db.query(q, [hcid], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.post("/getPerson", (req, res) => {
+  const q = "SELECT * FROM PERSON WHERE HCID = ?";
+  const hcid = req.body.hcid;
+  console.log(hcid);
+  db.query(q, [hcid], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    
+    return res.json(data);
+  });
+});
+
+app.post("/bloodRequest", (req, res) => {
+  const q = "SELECT * FROM BLOOD WHERE Blood_group = ? AND RH_factor = ? AND Blood_status = 'Available' AND Blood_ID IN (SELECT Blood_ID FROM BLOOD_INVENTORY)";
+  const blood_group = req.body.Blood_type;
+  const rh_factor = req.body.RH_factor;
+  const blood_id = req.body.Blood_ID;
+  console.log(blood_group);
+  console.log(rh_factor);
+  console.log(blood_id);
+
+  db.query(q, [blood_group, rh_factor, blood_id], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    console.log(result);
+    return res.json(result);
+  });
+});
+
 
 app.get('/getBloodtype/:firstname/:lastname', (req, res) => {
   const firstname = req.params.firstname;

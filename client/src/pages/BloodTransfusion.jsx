@@ -7,6 +7,9 @@ const BloodTransfusion = () => {
 
   const navigate = useNavigate();
 
+  /* TO DO:
+  ADD TO TRANSFUSION HISTORY. UPDATE APPT STATUS, */
+
   const [appt, setAppt] = useState({
     date: null,
     time: null,
