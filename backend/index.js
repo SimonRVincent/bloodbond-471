@@ -274,6 +274,20 @@ app.post('/checkHcidExists', (req, res) => {
   });
 });
 
+app.post('/checkDonorExists', (req, res) => {
+  const valueToCheck = req.body.valueToCheck;
+  const query = `SELECT * FROM DONOR WHERE HCID = ?`;
+
+  db.query(query, [valueToCheck], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).json({ exists: result.length > 0 });
+    }
+  });
+});
+
 app.post('/checkRecipientExists', (req, res) => {
   const valueToCheck = req.body.valueToCheck;
   const query = `SELECT * FROM RECIPIENT WHERE HCID = ?`;
