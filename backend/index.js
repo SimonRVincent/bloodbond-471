@@ -61,6 +61,25 @@ app.post("/getPerson", (req, res) => {
   });
 });
 
+app.post("/bloodRequest", (req, res) => {
+  const q = "SELECT * FROM BLOOD WHERE Blood_group = ? AND RH_factor = ? AND Blood_status = 'Available' AND Blood_ID IN (SELECT Blood_ID FROM BLOOD_INVENTORY)";
+  const blood_group = req.body.Blood_type;
+  const rh_factor = req.body.RH_factor;
+  const blood_id = req.body.Blood_ID;
+  console.log(blood_group);
+  console.log(rh_factor);
+  console.log(blood_id);
+
+  db.query(q, [blood_group, rh_factor, blood_id], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    console.log(result);
+    return res.json(result);
+  });
+});
+
 
 app.get('/getBloodtype/:firstname/:lastname', (req, res) => {
   const firstname = req.params.firstname;

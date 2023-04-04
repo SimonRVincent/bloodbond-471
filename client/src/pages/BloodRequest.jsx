@@ -8,6 +8,7 @@ const BloodRequest = () => {
   const [recipient, setRecipient] = useState({ hcid: null });
   const [insertionResult, setInsertionResult] = useState(null);
   const [insertionResult2, setInsertionResult2] = useState(null);
+  const [insertionResult3, setInsertionResult3] = useState(null);
   const [error, setError] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
@@ -24,6 +25,25 @@ const BloodRequest = () => {
       console.log(err);
     }
   };
+
+  const handleBloodRequest = async (e) => {
+    e.preventDefault();
+    try {
+        console.log(insertionResult[0].Blood_type);
+        const response = await axios.post("http://localhost:8800/bloodRequest", insertionResult[0]);
+        setInsertionResult3(response.data);
+        console.log(response.data);
+    } catch (error) {
+        if (error.response.status === 409) {
+            setInsertionResult3(null);
+            setError(true);
+        } else {
+            console.error("Error making blood request:", error);
+        }
+    }
+    };
+
+
 
   useEffect(() => {
     console.log("insertionResult changed:", insertionResult);
@@ -71,9 +91,6 @@ const BloodRequest = () => {
     setShowInfo(true);
   };
 
-
-
-
   useEffect(() => {
     setShowInfo(false);
   }, [recipient]);
@@ -87,10 +104,13 @@ const BloodRequest = () => {
         Logo here
       </div>
       {showInfo ? (
-        <RecipientInformation
-          insertionResult={insertionResult}
-          insertionResult2={insertionResult2}
-        />
+        <>
+          <RecipientInformation
+            insertionResult={insertionResult}
+            insertionResult2={insertionResult2}
+          />
+          <button onClick={handleBloodRequest}>Make blood request</button>
+        </>
       ) : (
         <div className="form">
           <h1>Enter Recipient HCID</h1>
