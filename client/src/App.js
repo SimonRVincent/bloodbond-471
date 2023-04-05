@@ -54,6 +54,7 @@ import Books from './pages/Books';
 import Add from './pages/Add';
 import Update from './pages/Update';
 import BloodRequest from './pages/BloodRequest';
+import BloodRequestResult from './pages/BloodRequestResult';
 
 function App() {
     return (
@@ -63,6 +64,7 @@ function App() {
                 <Route path="/Doctor" element={<Doctor />} />
                 <Route path="/DoctorHome" element={<DoctorHome />} />
                 <Route path="/DoctorHome/BloodRequest" element={<BloodRequest />} />
+                <Route path="/DoctorHome/BloodRequestResult" element={<BloodRequestResult />} />
                 <Route path="/DoctorHome/BloodTransfusion" element={<BloodTransfusion />} />
                 <Route path="/DoctorHome/BloodInventory" element={<BloodInventory />} />
                 <Route path="/DoctorHome/RegisterRecipient" element={<RegisterRecipient />} />
