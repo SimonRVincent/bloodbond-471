@@ -33,7 +33,7 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DonctorHome/LogDonation");
+        navigate("/DoctorHome/LogDonation");
        
     } catch (err) {
       console.log(err);

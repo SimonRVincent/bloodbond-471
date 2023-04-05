@@ -24,7 +24,6 @@ const DonorAppt = () => {
     bloodtype: "",
     rhfactor: "",
     donorstat: null,
-    bloodid: "",
     hcid: null,
   });
 
