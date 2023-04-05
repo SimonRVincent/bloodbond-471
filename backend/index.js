@@ -62,7 +62,8 @@ app.post("/getPerson", (req, res) => {
 });
 
 app.post("/bloodRequest", (req, res) => {
-  const q = "SELECT * FROM BLOOD WHERE Blood_group = ? AND RH_factor = ? AND Blood_status = 'Available' AND Blood_ID IN (SELECT Blood_ID FROM BLOOD_INVENTORY)";
+  const q = "SELECT * FROM BLOOD WHERE (Blood_group = ? OR Blood_group = 'O') AND RH_factor = ? AND Blood_status = 'Available' AND Blood_ID IN (SELECT Blood_ID FROM BLOOD_INVENTORY)";
+
   const blood_group = req.body.Blood_type;
   const rh_factor = req.body.RH_factor;
   const blood_id = req.body.Blood_ID;
