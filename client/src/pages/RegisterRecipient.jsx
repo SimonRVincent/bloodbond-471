@@ -24,8 +24,6 @@ const RegisterRecipient = () => {
   const [recipient, setRecipient] = useState({
     bloodtype: "",
     rhfactor: "",
-    donorstat: null,
-    bloodid: "",
     hcid: null,
     healthcondition: "",
   });
@@ -60,8 +58,8 @@ const RegisterRecipient = () => {
 
       setInsertionResult(response.data.message);
       try {
-        await axios.post("http://localhost:8800/addDonor", recipient);
-        navigate("/DoctorHome");
+        console.log("recipient", recipient);
+        await axios.post("http://localhost:8800/addRecipient", recipient);
 
       } catch (err) {
         console.log(err);
@@ -75,6 +73,8 @@ const RegisterRecipient = () => {
         console.error('Error inserting data:', error);
       }
     }
+    alert("Recipient successfully registered.")
+    navigate("/DoctorHome");
   };
 
 
