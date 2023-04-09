@@ -22,9 +22,8 @@ const LogDonation = () => {
     });
 
     const [donationhistory, setDonationHistory] = useState({
-        hospitalid: null,
-        donationid: null,
-        status: "",
+        hcid: null,
+        dateofdonation: "",
     });
 
 
@@ -48,6 +47,19 @@ const LogDonation = () => {
         }
       };
 
+    const handleClick = async (e) => {
+        e.preventDefault();
+
+        try{
+            await axios.post("http://localhost:8800/addBlood", blood);
+            await axios.post("http://localhost:8800/addDonationHistory", donationhistory);
+            navigate("/DoctorHome");
+        }
+        catch(err){
+            console.log(err);
+            setError(true)
+        }
+    };
 
 
     return (
@@ -62,8 +74,8 @@ const LogDonation = () => {
        <div className = "LogDonation"> 
        <h1>  Log Donation </h1> 
 
-        <input type="text" placeholder="Donor HCID" />
-        <input type="text" placeholder="Collection Date" />
+        <input type="text" placeholder="Donor HCID" name="hcid" onChange={handleChange}/>
+        <input type="text" placeholder="Collection Date" name = "dateofdonation"  onChange={handleChange} />
 
         <br></br>
         <br></br>
@@ -76,9 +88,14 @@ const LogDonation = () => {
         <input type="text" placeholder="White blood cell count" name = "whitebloodcells" onChange={handleChange} />
         <input type="text" placeholder="Platelet count" name = "platelets" onChange={handleChange} />
         <input type="text" placeholder="Blood volume" name = "bloodvolume" onChange={handleChange} />
+        <input type="text" placeholder="Status" name = "bloodstatus" onChange={handleChange} />
 
+
+        <button onClick={handleClick}> Submit Information </button>
 
         </div>
+
+        {insertionResult && <p>{insertionResult}</p>}
 
         </div>
       );

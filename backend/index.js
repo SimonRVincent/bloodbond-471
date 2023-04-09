@@ -218,8 +218,9 @@ app.post("/addRecipient", (req, res) => {
   });
 });
 
-app.post("/logdonation", (req,rest) => {
-  const q = "INSERT INTO DONATION_HISTORY (HCID, Date_of_donation) VALUES (?, ?)";
+app.post("/addDonationHistory", (req,res) => {
+  const q = "INSERT INTO DONATION_HISTORY (`HCID`, `Date_of_donation`) VALUES (?)";
+  console.log("hcid:", req.body.hcid);
 
   const values = [
     req.body.hcid,
@@ -229,15 +230,16 @@ app.post("/logdonation", (req,rest) => {
   db.query(q, [values], (err,data) => {
     if (err) return res.send(err);
     return res.json(data);
-  })
+  });
 
 });
 
-app.post("/addblood", (req,rest) => {
-  const q = "INSERT INTO BLOOD (Blood_ID, Blood_group, RH_factor, Blood_status, Red_blood_cells, White_blood_cells, Platelets, Blood_volume) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
+app.post("/addBlood", (req,res) => {
+  const q = "INSERT INTO BLOOD (`Blood_ID`, `Blood_group`, `RH_factor`, `Blood_status`, `Red_blood_cells`, `White_blood_cells`, `Platelets`, `Blood_volume`) VALUES (?)";
+  console.log("bloodid:", req.body.bloodid);
   const values = [
     req.body.bloodid,
+    req.body.bloodgroup,
     req.body.rhfactor,
     req.body.bloodstatus,
     req.body.redbloodcells,
@@ -250,10 +252,9 @@ app.post("/addblood", (req,rest) => {
   db.query(q, [values], (err,data) => {
     if (err) return res.send(err);
     return res.json(data);
-  })
+  });
 
 });
-
 
 
 app.delete("/books/:id", (req, res) => {
