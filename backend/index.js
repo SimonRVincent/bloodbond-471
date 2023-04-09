@@ -160,8 +160,6 @@ app.post("/bookAppointment", (req, res) => {
   });
 });
 
-// Hello
-
 
 // app.post("/addPerson", (req, res) => {
 //   const q = "INSERT INTO PERSON(`firstname`, `lastname`, `age`, `sex`, 'dob', 'phone', 'email', 'hcid') VALUES (?)";
@@ -219,6 +217,44 @@ app.post("/addRecipient", (req, res) => {
     return res.json(data);
   });
 });
+
+app.post("/logdonation", (req,rest) => {
+  const q = "INSERT INTO DONATION_HISTORY (HCID, Date_of_donation) VALUES (?, ?)";
+
+  const values = [
+    req.body.hcid,
+    req.body.dateofdonation,
+  ];
+
+  db.query(q, [values], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  })
+
+});
+
+app.post("/addblood", (req,rest) => {
+  const q = "INSERT INTO BLOOD (Blood_ID, Blood_group, RH_factor, Blood_status, Red_blood_cells, White_blood_cells, Platelets, Blood_volume) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+  const values = [
+    req.body.bloodid,
+    req.body.rhfactor,
+    req.body.bloodstatus,
+    req.body.redbloodcells,
+    req.body.whitebloodcells,
+    req.body.platelets,
+    req.body.bloodvolume,
+
+  ];
+
+  db.query(q, [values], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  })
+
+});
+
+
 
 app.delete("/books/:id", (req, res) => {
   const bookId = req.params.id;

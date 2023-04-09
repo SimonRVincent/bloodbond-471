@@ -54,6 +54,8 @@ import Books from './pages/Books';
 import Add from './pages/Add';
 import Update from './pages/Update';
 import BloodRequest from './pages/BloodRequest';
+import LogDonation from './pages/LogDonation';
+import LogTransfusion from './pages/LogTransfusion';
 
 function App() {
     return (
@@ -72,6 +74,8 @@ function App() {
                 <Route path="/" element={<Books />} />
                 <Route path="/add" element={<Add />} />
                 <Route path="/update/:id" element={<Update />} />
+                <Route path = "/DoctorHome/LogDonation" element={<LogDonation />} />
+                <Route path = "/DoctorHome/LogTransfusion" element={<LogTransfusion />} />
             </Routes>
         </div>
     );

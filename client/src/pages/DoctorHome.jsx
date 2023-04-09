@@ -33,7 +33,18 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DonctorHome/LogDonation");
+        navigate("/DoctorHome/LogDonation");
+       
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleClickLogTransfusion = async (e) => {
+    e.preventDefault();
+    try {
+      // Go to specified page
+        navigate("/DoctorHome/LogTransfusion");
        
     } catch (err) {
       console.log(err);
@@ -84,6 +95,7 @@ const DoctorHome = () => {
         <button onClick={handleClickBloodReq}>Blood request</button>
         <button onClick={handleClickBookTransf}>Book transfusion</button>
         <button onClick={handleClickBloodInv}>Blood inventory</button>
+        <button onCLick={handleClickLogTransfusion}>Log transfusion</button>
     </div>
   );
 };
