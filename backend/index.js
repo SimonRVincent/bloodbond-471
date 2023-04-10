@@ -23,8 +23,19 @@ app.get("/", (req, res) => {
   res.json("hello, this is the backend");
 });
 
-app.post("/getBloodInventory", (req, res) => {
+app.get("/getBloodInventory", (req, res) => {
   const q = "SELECT * FROM BLOOD_INVENTORY";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/getPendingRequests", (req, res) => {
+  const q = "SELECT * FROM BLOOD_REQUEST WHERE Status = 'Pending'";
   db.query(q, (err, data) => {
     if (err) {
       console.log(err);
@@ -100,7 +111,7 @@ let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
 
   const blood_type = req.body.Blood_type;
   const rh_factor = req.body.RH_factor;
-  const status = 0;
+  const status = 'Pending';
   const hcid = req.body.HCID;
 
   db.query(q, [currentDate, blood_type, rh_factor, status, hcid], (err, result) => {
