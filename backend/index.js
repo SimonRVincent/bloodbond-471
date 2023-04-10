@@ -23,6 +23,8 @@ app.get("/", (req, res) => {
   res.json("hello, this is the backend");
 });
 
+
+
 app.get("/getBloodInventory", (req, res) => {
   const q = "SELECT * FROM BLOOD_INVENTORY";
   db.query(q, (err, data) => {
@@ -50,6 +52,21 @@ app.post("/getRecipient", (req, res) => {
   const hcid = req.body.hcid;
   console.log(hcid);
   db.query(q, [hcid], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.post("/getMatchingRequests", (req, res) => {
+  const q = "SELECT DISTINCT * FROM BLOOD WHERE (Blood_group = ? OR Blood_group = 'O') AND RH_factor = ? AND Blood_status = 'Available' AND Blood_ID IN (SELECT Blood_ID FROM BLOOD_INVENTORY)";
+  const blood_group = req.body.Blood_type;
+  const rh_factor = req.body.RH_factor;
+  console.log("Blood group: " + blood_group);
+  console.log("RH factor: " + rh_factor);
+  db.query(q, [blood_group, rh_factor], (err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
