@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 
 const PendingRequests = () => {
 
+    //NOTE: There are warnings due to duplicate keys in the matching requests table.
+    // This is because one blood entity in the database can match multiple requests.
+    // It causes nom adverse behaviour as far as I cn tell, but it is something to be aware of
+    // and fixed of possible.
+
   const navigate = useNavigate();
   const [requests, setRequests] = useState([]);
   const [matchingRequests, setMatchingRequests] = useState([]);
@@ -34,7 +39,8 @@ const PendingRequests = () => {
             matchingRequests.push({ request, matchingBlood }); // combine request and matching blood
           }
         }
-        setMatchingRequests(matchingRequests);
+        setMatchingRequests(matchingRequests.map((request) => request));
+
       } catch (err) {
         console.log(err);
       }
@@ -89,7 +95,7 @@ const PendingRequests = () => {
       <div className="matching_requests">
         <h2>Matching Requests</h2>
         {matchingRequests.map(({ request, matchingBlood }) => (
-    <div key={request.Request_ID} className="request">
+    <div key={matchingBlood.Request_ID} className="request">
     <h3>Request ID: {request.Request_ID}</h3>
     <p>Blood ID: {matchingBlood.Blood_ID}</p>
     <p>Blood Type: {matchingBlood.Blood_group}</p>
