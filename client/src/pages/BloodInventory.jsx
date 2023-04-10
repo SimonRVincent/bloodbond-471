@@ -64,8 +64,8 @@ const BloodInventory = () => {
         {blood.map((blood) => (
           <div key={blood.Inventory_ID} className="blood">
             <h3>Inventory ID: {blood.Inventory_ID}</h3>
-            <h3>Blood ID: {blood.Blood_ID}</h3>
-            <h3>Hospital ID: {blood.Hospital_ID}</h3>
+            <p>Blood ID: {blood.Blood_ID}</p>
+            <p>Hospital ID: {blood.Hospital_ID}</p>
             <p>Collection date: {blood.Collection_date}</p>
             <span>Expiration date: {blood.Expiration_date}</span>
               {/* <Link

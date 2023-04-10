@@ -73,6 +73,17 @@ const DoctorHome = () => {
     }
   };
 
+  const handlePendingRequests = async (e) => {
+    e.preventDefault();
+    try {
+      // Go to specified page
+        navigate("/DoctorHome/PendingRequests");
+        
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="mainDiv">
             <div className="header">
@@ -84,6 +95,7 @@ const DoctorHome = () => {
         <button onClick={handleClickBloodReq}>Blood request</button>
         <button onClick={handleClickBookTransf}>Book transfusion</button>
         <button onClick={handleClickBloodInv}>Blood inventory</button>
+        <button onClick={handlePendingRequests}>Pending requests</button>
     </div>
   );
 };
