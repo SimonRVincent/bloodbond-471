@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import BloodRequestInfo from "./BloodRequestInfo";
 
 const BloodRequestResult = () => {
   const navigate = useNavigate();
@@ -20,7 +21,15 @@ const BloodRequestResult = () => {
   //   result[0].RH_factor = "Negative";
   // }
 
-  console.log(result[0].RH_factor);
+  const goToPendingRequests = async (e) => {
+    e.preventDefault();
+    try {
+      // Go to specified page
+      navigate("/DoctorHome/PendingRequests");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
 
   const handleChange = (e) => {
@@ -28,7 +37,8 @@ const BloodRequestResult = () => {
   };
 
   useEffect(() => {
-    if (result != null) {
+    console.log(result);
+    if (result.length > 0) {
       setShowInfo(true);
     } else {
       setShowInfo(false);
@@ -57,28 +67,15 @@ const BloodRequestResult = () => {
       </div>
 
       {showInfo ? (
-        <>
-          <div className="bloodRequest">
-            <h3>Blood ID: {result[0].Blood_ID}</h3>
-            <h3>Blood group: {result[0].Blood_group}</h3>
-            <h3>RH factor: {result[0].RH_factor}</h3>
-            <h3>Volume: {result[0].Blood_volume}mL</h3>
-            <h3>Red blood cells: {result[0].Red_blood_cells}</h3>
-            <h3>White blood cells: {result[0].White_blood_cells}</h3>
-            <h3>Platelets: {result[0].Platelets}</h3>
-            <h3>Status: {result[0].Blood_status}</h3>
-
-          </div>
-        </>
+      
+        <BloodRequestInfo result={result} />
+        
       ) : (
-        <div className="form">
-          <h1>Enter Recipient HCID</h1>
-          <input
-            type="text"
-            placeholder="Health care ID"
-            name="hcid"
-            onChange={handleChange}
-          />
+        <div>
+          <h1>No suitable match found.</h1>
+          <h3>Your request will be stored. Check the pending requests regularly; if a matching unit of blood becomes availabe, you can schedule a transfusion.</h3>
+          <button onClick={goToPendingRequests}>Pending Requests</button>
+          
           {error && <p>Something went wrong!</p>}
         </div>
       )}

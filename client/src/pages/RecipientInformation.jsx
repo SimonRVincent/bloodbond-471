@@ -4,7 +4,7 @@ const RecipientInformation = ({ insertionResult, insertionResult2 }) => {
     console.log("insertionResult:", insertionResult);
     console.log("insertionResult2:", insertionResult2);
   
-    if (!insertionResult || !insertionResult2) {
+    if (!insertionResult || !insertionResult2 || insertionResult.length < 1 || insertionResult2.length < 1) {
       return <div>No recipient information found</div>;
     }
   

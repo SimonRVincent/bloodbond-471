@@ -19,7 +19,7 @@ const BloodRequest = () => {
     e.preventDefault();
     try {
       // Go to specified page
-      navigate("/");
+      navigate("/DoctorHome");
     } catch (err) {
       console.log(err);
     }
@@ -28,18 +28,31 @@ const BloodRequest = () => {
   const handleBloodRequest = async (e) => {
     e.preventDefault();
     try {
-        console.log(insertionResult[0].Blood_type);
+      if (insertionResult.length > 0 && insertionResult[0].Blood_type) {
         const response = await axios.post("http://localhost:8800/bloodRequest", insertionResult[0]);
+        console.log("Response 1:", response.data);
+        if (response.data.length < 1) {
+          try {
+            const response2 = await axios.post("http://localhost:8800/insertBloodRequest", insertionResult[0]);
+            console.log("Response 2:", response2.data);
+            navigate(`/DoctorHome/BloodRequest/BloodRequestResult?data=${JSON.stringify(response2.data)}`);
+          }
+          catch (error) {
+            console.error("Error inserting blood request:", error);
+          }
+        }
         navigate(`/DoctorHome/BloodRequest/BloodRequestResult?data=${JSON.stringify(response.data)}`);
         console.log(response.data);
+      }
     } catch (error) {
-        if (error.response.status === 409) {
-            setError(true);
-        } else {
-            console.error("Error making blood request:", error);
-        }
+      if (error.response && error.response.status === 409) {
+        setError(true);
+      } else {
+        console.error("Error making blood request:", error);
+      }
     }
-    };
+  };
+  
 
 
 

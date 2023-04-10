@@ -55,6 +55,7 @@ import Add from './pages/Add';
 import Update from './pages/Update';
 import BloodRequest from './pages/BloodRequest';
 import BloodRequestResult from './pages/BloodRequestResult';
+import PendingRequests from './pages/PendingRequests';
 
 function App() {
     return (
@@ -68,6 +69,7 @@ function App() {
                 <Route path="/DoctorHome/BloodTransfusion" element={<BloodTransfusion />} />
                 <Route path="/DoctorHome/BloodInventory" element={<BloodInventory />} />
                 <Route path="/DoctorHome/RegisterRecipient" element={<RegisterRecipient />} />
+                <Route path="/DoctorHome/PendingRequests" element={<PendingRequests />} />
                 <Route path="/Donor" element={<Donor />} />
                 <Route path="/Donor/DonorAppt" element={<DonorAppt />} />
                 <Route path="/Donor/DonorAppt/DonorDate" element={<DonorDate />} />

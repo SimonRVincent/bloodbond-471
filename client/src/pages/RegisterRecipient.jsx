@@ -41,7 +41,7 @@ const RegisterRecipient = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/");
+        navigate("/DoctorHome");
 
     } catch (err) {
       console.log(err);
