@@ -81,6 +81,39 @@ app.post("/bloodRequest", (req, res) => {
   });
 });
 
+app.post("/insertBloodRequest", (req, res) => {
+  const q = "INSERT INTO BLOOD_REQUEST (Date, Blood_type, RH_factor, Status, HCID) VALUES (?, ?, ?, ?, ?)";
+
+ // Date object
+const date = new Date();
+
+let currentDay= String(date.getDate()).padStart(2, '0');
+
+let currentMonth = String(date.getMonth()+1).padStart(2,"0");
+
+let currentYear = date.getFullYear();
+
+// we will display the date as DD-MM-YYYY 
+
+let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+
+
+  const blood_type = req.body.Blood_type;
+  const rh_factor = req.body.RH_factor;
+  const status = 0;
+  const hcid = req.body.HCID;
+
+  db.query(q, [currentDate, blood_type, rh_factor, status, hcid], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    console.log(result);
+    return res.json(result);
+  });
+});
+
+
 
 app.get('/getBloodtype/:firstname/:lastname', (req, res) => {
   const firstname = req.params.firstname;
