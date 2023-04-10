@@ -26,11 +26,23 @@ const LogDonation = () => {
         dateofdonation: "",
     });
 
+    const [bloodinventory, setBloodInventory] = useState({
+        hospitalid: null,
+        bloodid: null,
+        dateofdonation: "",
+        expirationdate: "",
+
+        bloodstatus: "",
+        
+
+    });
+
 
     const handleChange = (e) => {
         setDonationHistory((prev) => ({...prev, [e.target.name]: e.target.value}));
         setBlood((prev) => ({...prev, [e.target.name]: e.target.value}));
-    };
+        setBloodInventory((prev) => ({...prev, [e.target.name]: e.target.value}));
+     }
 
     const [insertionResult, setInsertionResult] = useState(null);
 
@@ -53,6 +65,11 @@ const LogDonation = () => {
         try{
             await axios.post("http://localhost:8800/addBlood", blood);
             await axios.post("http://localhost:8800/addDonationHistory", donationhistory);
+            
+            if(bloodinventory.bloodstatus === "Available"){
+                await axios.post("http://localhost:8800/addBloodInventory", bloodinventory);
+            }
+
             navigate("/DoctorHome");
         }
         catch(err){
@@ -60,7 +77,6 @@ const LogDonation = () => {
             setError(true)
         }
     };
-
 
     return (
 
@@ -77,6 +93,7 @@ const LogDonation = () => {
         <input type="text" placeholder="Donor HCID" name="hcid" onChange={handleChange}/>
         <input type="text" placeholder="Collection Date" name = "dateofdonation"  onChange={handleChange} />
 
+
         <br></br>
         <br></br>
 
@@ -88,8 +105,34 @@ const LogDonation = () => {
         <input type="text" placeholder="White blood cell count" name = "whitebloodcells" onChange={handleChange} />
         <input type="text" placeholder="Platelet count" name = "platelets" onChange={handleChange} />
         <input type="text" placeholder="Blood volume" name = "bloodvolume" onChange={handleChange} />
-        <input type="text" placeholder="Status" name = "bloodstatus" onChange={handleChange} />
 
+        <label>
+        Status:
+            <select name="bloodstatus" onChange={handleChange}>
+             <option value="">Select Availablity</option>
+             <option value="Available">Available</option>
+             <option value="Unavilable">Unavailable</option>
+            </select>
+        </label>
+
+
+        <br></br>
+        <br></br>
+
+        <label>
+        Going to:
+            <select name = "hospitalid" onChange={handleChange}>
+             <option value="">Select hospital</option>
+             <option value="1234">Peter Lougheed Hospital</option>
+             <option value="5678">Foothills Hospital</option>
+             <option value="9012">RockeyView Hospital</option>
+             <option value="3456">Alberta Children's Hospital</option>
+            </select>
+        </label>
+        
+
+        <br></br>
+        <br></br>
 
         <button onClick={handleClick}> Submit Information </button>
 
@@ -99,7 +142,8 @@ const LogDonation = () => {
 
         </div>
       );
-};
+
+    }
 
 export default LogDonation;
 

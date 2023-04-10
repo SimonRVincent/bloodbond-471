@@ -117,7 +117,6 @@ app.post("/addPerson", (req, res) => {
  
   ];
 
-
   db.query(query, [values], (err, result) => {
     if (err) {
       if (err.code === 'ER_DUP_ENTRY') {
@@ -255,6 +254,27 @@ app.post("/addBlood", (req,res) => {
   });
 
 });
+
+app.post("/addBloodInventory", (req,res) => {
+  const q = "INSERT INTO BLOOD_INVENTORY (`Hospital_ID`, `Blood_ID`, `Collection_date`, `Expiration_date`) VALUES (?, ?, ?, ?)";
+
+  console.log("hospitalid:", req.body.hospitalid);
+  
+  const values = [
+    req.body.hospitalid,
+    req.body.bloodid,
+    req.body.dateofdonation,
+    req.body.expirationdate,
+  ];
+
+  db.query(q, values, (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+
+});
+
+
 
 
 app.delete("/books/:id", (req, res) => {
