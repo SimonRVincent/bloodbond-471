@@ -274,6 +274,31 @@ app.post("/addBloodInventory", (req,res) => {
 
 });
 
+app.delete("/deleteinventory/:id", (req,res) => {
+  const inventoryId = req.params.id
+  console.log("delete made");
+  const q = "DELETE FROM BLOOD_INVENTORY WHERE Blood_ID = ?"
+
+  db.query(q, [inventoryId], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+
+})
+
+app.post("/addtransfusionhistory", (req,res) => {
+  const q = "INSERT INTO TRANSFUSION_HISTORY (`HCID`, `Date_of_transfusion`) VALUES (?)";
+
+  const values = [
+    req.body.hcid,
+    req.body.dateoftransfusion,
+  ];
+  db.query(q, [values], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
 
 
 
