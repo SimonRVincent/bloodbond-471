@@ -27,13 +27,11 @@ const RegisterRecipient = () => {
   const [person, setPerson] = useState({
     firstname: "",
     lastname: "",
-    age: null,
+    age: "",
     sex: "",
     dob: "",
     email: "",
     hcid: null,
-
-
   });
   const [error,setError] = useState(false)
 
@@ -41,15 +39,24 @@ const RegisterRecipient = () => {
   const [recipient, setRecipient] = useState({
     bloodtype: "",
     rhfactor: "",
-    hcid: null,
+    hcid: "",
     healthcondition: "",
   });
 
-
-
   const handleChange = (e) => {
-    setPerson((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setRecipient((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log(`Changing ${e.target.name} to ${e.target.value}`);
+
+    setPerson((prevPerson) => {
+      const updatedPerson = {...prevPerson, [e.target.name]: e.target.value};
+      console.log(`Person's ${e.target.name} is now ${updatedPerson[e.target.name]}`);
+      return updatedPerson;
+    });
+
+    setRecipient((prevRecipient) => {
+      const updatedRecipient = {...prevRecipient, [e.target.name]: e.target.value};
+      console.log(`Recipient's ${e.target.name} is now ${updatedRecipient[e.target.name]}`);
+      return updatedRecipient;
+    });
   };
 
   const [insertionResult, setInsertionResult] = useState(null);
@@ -65,33 +72,49 @@ const RegisterRecipient = () => {
     }
   };
 
-  
+
   const handleClick = async (e) => {
     e.preventDefault();
 
     try {
-
       const response = await axios.post('http://localhost:8800/addPerson', person);
+      console.log('Person added:', response.data);
 
       setInsertionResult(response.data.message);
       try {
-        console.log("recipient", recipient);
-        await axios.post("http://localhost:8800/addRecipient", recipient);
+        console.log('Recipient:', recipient);
+        const recipientResponse = await axios.post("http://localhost:8800/addRecipient", recipient);
+        console.log('Recipient added:', recipientResponse.data);
+
+        if (recipientResponse.status !== 200) {
+          setError(true);
+          console.log('Error adding recipient.');
+          return;
+        }
 
       } catch (err) {
-        console.log(err);
+        console.log('Error adding recipient:', err);
         setError(true)
       }
     } catch (error) {
       if (error.response.status === 409) {
         setInsertionResult(error.response.data.message);
+        console.log('Insertion failed. Recipient is already registered.');
         alert("Insertion failed. Recipient is already registered.");
+      } else if (error.response.status === 500) {
+        console.log('Error inserting data:', error);
+        setError(true);
+        alert("An internal server error occurred while registering the recipient. Please try again later, and hopefully the problem will be fixed.");
       } else {
         console.error('Error inserting data:', error);
       }
     }
-    alert("Recipient successfully registered.")
-    navigate("/DoctorHome");
+
+    if (!error) {
+      console.log('Recipient successfully registered.');
+      alert("Recipient successfully registered.");
+      navigate("/DoctorHome");
+    }
   };
 
 
@@ -106,6 +129,8 @@ const RegisterRecipient = () => {
     'HIV/AIDS',
     'Inflammatory bowel disease (IBD)',
     'Lymphoma',
+    'Leukemia',
+    'Multiple sclerosis',
     'Multiple myeloma',
     'Sickle cell disease',
     'Thalassemia',
@@ -196,10 +221,29 @@ const RegisterRecipient = () => {
                             onChange={(e) => {
                               const dob = new Date(e.target.value);
                               const today = new Date();
-                              const age = today.getFullYear() - dob.getFullYear();
-                              handleChange({target: {name: "dob", value: e.target.value}});
-                              handleChange({target: {name: "age", value: age}});
+                              let age = today.getFullYear() - dob.getFullYear();
+                              const birthMonth = dob.getMonth();
+                              const currentMonth = today.getMonth();
+                              if (currentMonth < birthMonth) {
+                                age--;
+                              } else if (currentMonth === birthMonth) {
+                                const birthDay = dob.getDate();
+                                const currentDay = today.getDate();
+                                if (currentDay < birthDay) {
+                                  age--;
+                                }
+                              }
+                              setPerson(prevPerson => {
+                                const updatedAge = age.toString();
+                                console.log(`Updating person's date of birth to ${e.target.value} and age to ${updatedAge}`);
+                                return {
+                                  ...prevPerson,
+                                  dob: e.target.value,
+                                  age: updatedAge
+                                };
+                              });
                             }}
+
                             InputLabelProps={{shrink: true}}
                             sx={{py: 1}}
                         />
@@ -270,13 +314,14 @@ const RegisterRecipient = () => {
                               label="Blood Type"
                               name="bloodtype"
                               required
-                              value={person.bloodtype}
+                              value={recipient.bloodtype}
                               onChange={handleChange}
                           >
-                            <MenuItem value="A">A</MenuItem>
-                            <MenuItem value="B">B</MenuItem>
-                            <MenuItem value="AB">AB</MenuItem>
-                            <MenuItem value="O">O</MenuItem>
+                            {["A", "B", "AB", "O"].map((type) => (
+                                <MenuItem key={type} value={type}>
+                                  {type}
+                                </MenuItem>
+                            ))}
                           </Select>
                         </FormControl>
                       </Grid>
@@ -287,7 +332,7 @@ const RegisterRecipient = () => {
                               label="RH Factor"
                               name="rhfactor"
                               required
-                              value={person.rhfactor}
+                              value={recipient.rhfactor}
                               onChange={handleChange}
                           >
                             <MenuItem value="+">+</MenuItem>
@@ -300,14 +345,14 @@ const RegisterRecipient = () => {
                           <InputLabel id="healthcondition-label">Medical History and Conditions</InputLabel>
                           <Select
                               labelId="healthcondition-label"
-                              label="Medical History and Conditions"
+                              id="healthcondition"
                               name="healthcondition"
-                              required
-                              value={person.healthcondition}
+                              value={recipient.healthcondition}
                               onChange={handleChange}
+                              label="Medical History and Conditions"
+                              required
                               style={{padding: "8px"}}
                               MenuProps={{
-                                getContentAnchorEl: null,
                                 anchorOrigin: {
                                   vertical: "bottom",
                                   horizontal: "left"
@@ -320,9 +365,10 @@ const RegisterRecipient = () => {
                                   style: {
                                     maxHeight: 300,
                                     width: "100%",
-                                    maxWidth: 600
-                                  },
-                                },
+                                    maxWidth: 600,
+                                    marginTop: "10px"
+                                  }
+                                }
                               }}
                           >
                             <MenuItem value="">
@@ -330,28 +376,23 @@ const RegisterRecipient = () => {
                             </MenuItem>
                             <ListSubheader>Chronic Conditions</ListSubheader>
                             {chronicConditions.map((condition, index) => (
-                                <React.Fragment key={condition}>
-                                  <MenuItem value={condition}>
-                                    {condition}
-                                  </MenuItem>
+                                <MenuItem key={condition} value={condition}>
+                                  {condition}
                                   {index !== chronicConditions.length - 1 && <Divider/>}
-                                </React.Fragment>
+                                </MenuItem>
                             ))}
                             <ListSubheader>Acute Conditions</ListSubheader>
                             {acuteConditions.map((condition, index) => (
-                                <React.Fragment key={condition}>
-                                  <MenuItem value={condition}>
-                                    {condition}
-                                  </MenuItem>
+                                <MenuItem key={condition} value={condition}>
+                                  {condition}
                                   {index !== acuteConditions.length - 1 && <Divider/>}
-                                </React.Fragment>
+                                </MenuItem>
                             ))}
                             <MenuItem value="Other">Other</MenuItem>
                           </Select>
                         </FormControl>
                       </Grid>
                     </Grid>
-
                     <Box my={4} display="flex" justifyContent="center">
                       <Button
                           variant="contained"
