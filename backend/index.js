@@ -299,6 +299,19 @@ app.post("/addtransfusionhistory", (req,res) => {
   });
 });
 
+app.put("/updateblood/:id", (req,res) =>{
+  const bloodstatusId = req.params.id;
+  const q = "UPDATE BLOOD SET `Blood_status` = 'Unavailable' WHERE Blood_ID = ?";
+
+  console.log("update made");
+
+  db.query(q, [bloodstatusId], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+
+})
+
 
 
 

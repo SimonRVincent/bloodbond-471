@@ -38,8 +38,9 @@ const LogTransfusion = () => {
     // Delete from blood inventory if the transfusion was complete
     const handleComplete= async (id) =>{
       try{
-        await axios.delete("http://localhost:8800/deleteinventory/"+id)
+        await axios.delete("http://localhost:8800/deleteinventory/"+id);
         await axios.post("http://localhost:8800/addtransfusionhistory", transfusionhistory);
+        await axios.put("http://localhost:8800/updateblood/"+id);
         window.location.reload()
       }
       catch(eer){
