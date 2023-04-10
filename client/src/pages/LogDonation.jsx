@@ -41,7 +41,16 @@ const LogDonation = () => {
     const handleChange = (e) => {
         setDonationHistory((prev) => ({...prev, [e.target.name]: e.target.value}));
         setBlood((prev) => ({...prev, [e.target.name]: e.target.value}));
-        setBloodInventory((prev) => ({...prev, [e.target.name]: e.target.value}));
+
+        const name = e.target.name;
+
+        if(name === "dateofdonation"){
+            const collectionDate = new Date(e.target.value);
+            const expirationDate = new Date(collectionDate);
+            expirationDate.setDate(expirationDate.getDate() + 42);
+        }
+
+        setBloodInventory((prev) => ({...prev, expirationdate: expirationDate.toISOString().slice(0,10), [e.target.name]: e.target.value}));
      }
 
     const [insertionResult, setInsertionResult] = useState(null);
@@ -91,8 +100,11 @@ const LogDonation = () => {
        <h1>  Log Donation </h1> 
 
         <input type="text" placeholder="Donor HCID" name="hcid" onChange={handleChange}/>
-        <input type="text" placeholder="Collection Date" name = "dateofdonation"  onChange={handleChange} />
-
+        
+        <label>
+            Collection Date:
+        <input type="date" placeholder="Collection Date" name = "dateofdonation"  onChange={handleChange} />
+        </label>
 
         <br></br>
         <br></br>

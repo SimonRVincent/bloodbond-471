@@ -258,7 +258,9 @@ app.post("/addBlood", (req,res) => {
 app.post("/addBloodInventory", (req,res) => {
   const q = "INSERT INTO BLOOD_INVENTORY (`Hospital_ID`, `Blood_ID`, `Collection_date`, `Expiration_date`) VALUES (?, ?, ?, ?)";
 
-  console.log("hospitalid:", req.body.hospitalid);
+  console.log("donationdate:", req.body.dateofdonation)
+  console.log("expirationdate:", req.body.expirationdate);
+
   
   const values = [
     req.body.hospitalid,

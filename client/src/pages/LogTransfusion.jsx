@@ -3,6 +3,8 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate, } from "react-router-dom";
+
+
  
 const LogTransfusion = () => {
 
@@ -48,8 +50,10 @@ const LogTransfusion = () => {
       }
     }
 
-    const handleIncomplete= async (e) =>{
+    const handleIncomplete= async (id) =>{
       try{
+        await axios.delete("http://localhost:8800/deleteinventory/"+id);
+        await axios.put("http://localhost:8800/updateblood/"+id);
         window.location.reload()
       }
       catch(eer){
@@ -76,32 +80,24 @@ const LogTransfusion = () => {
         <br></br>
 
         <input type="text" placeholder="Blood ID" name = "bloodid"  onChange={handleChange} />
-        <input type="text" placeholder="Transfusion Date" name = "dateoftransfusion"  onChange={handleChange} />
-        
+
+        <label>
+          Transfusion Date: 
+        <input type="date" placeholder="Transfusion Date" name = "dateoftransfusion"  onChange={handleChange} />
+        </label>
+
         <br></br>
         <br></br>
         
         <label>
         Status:
             <button classname="Complete" onClick={() => handleComplete(transfusionhistory.bloodid)}> Complete</button>
-            <button classname="Incomplete" onClick={() => handleIncomplete()}> Incomplete</button>
+            <button classname="Incomplete" onClick={() => handleIncomplete(transfusionhistory.bloodid)}> Incomplete</button>
         </label>
          </div>
 
          </div>
        );
-
-
-
-
-
-
-
-
-
-
-
-
 
 };
 
