@@ -64,8 +64,8 @@ const PendingRequests = () => {
         {request.map((request) => (
           <div key={request.Request_ID} className="request">
             <h3>Request ID: {request.Request_ID}</h3>
-            <h3>Requestee HCID: {request.HCID}</h3>
-            <h3>Blood Type: {request.Blood_type}</h3>
+            <p>Requestor HCID: {request.HCID}</p>
+            <p>Blood Type: {request.Blood_type}</p>
             <p>RH Factor: {request.RH_factor}</p>
             <span>Date Requested: {request.Date}</span>
               {/* <Link
