@@ -1,11 +1,11 @@
 import React from "react";
 
 const BloodRequestInfo = ({ result }) => {
-  
+
     // if (!result insertionResult.length < 1 || insertionResult2.length < 1) {
     //   return <div>No recipient information found</div>;
     // }
-  
+    
     return (
         <div className="bloodRequest">
         <h3>Blood ID: {result[0].Blood_ID}</h3>
