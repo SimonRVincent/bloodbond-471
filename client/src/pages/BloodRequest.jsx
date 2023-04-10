@@ -1,11 +1,16 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import RecipientInformation from "./RecipientInformation";
+import {Box, Button, InputAdornment, TextField, Typography} from "@mui/material";
+import {BackButton} from "../components/BackButton";
+import {BloodBondTitle} from "../components/BloodBondTitle";
+import MedicalInformationOutlinedIcon from "@mui/icons-material/MedicalInformationOutlined";
+
 
 const BloodRequest = () => {
   const navigate = useNavigate();
-  const [recipient, setRecipient] = useState({ hcid: null });
+  const [recipient, setRecipient] = useState({hcid: null});
   const [insertionResult, setInsertionResult] = useState(null);
   const [insertionResult2, setInsertionResult2] = useState(null);
   const [error, setError] = useState(false);
@@ -107,35 +112,186 @@ const BloodRequest = () => {
   }, [recipient]);
 
   return (
-    <div className="mainDiv">
-      <div className="header">
-        <button className="backButton" onClick={handleClickBack}>
-          Back
-        </button>
-        Logo here
-      </div>
-      {showInfo ? (
-        <>
-          <RecipientInformation
-            insertionResult={insertionResult}
-            insertionResult2={insertionResult2}
-          />
-          <button onClick={handleBloodRequest}>Make blood request</button>
-        </>
-      ) : (
-        <div className="form">
-          <h1>Enter Recipient HCID</h1>
-          <input
-            type="text"
-            placeholder="Health care ID"
-            name="hcid"
-            onChange={handleChange}
-          />
-          <button onClick={handleClick}>Look for recipient</button>
-          {error && <p>Something went wrong!</p>}
-        </div>
-      )}
-    </div>
+      <Box sx={{
+        background: 'linear-gradient(-45deg, #FFFFFF, #FFB6C1, #FFFFFF)',
+        borderRadius: '16px',
+        p: 3,
+        minHeight: '100vh',
+        backgroundSize: '400% 400%',
+        animation: 'gradient 15s ease-in-out infinite',
+        '@keyframes gradient': {
+          '0%': {backgroundPosition: '0% 50%'},
+          '50%': {backgroundPosition: '100% 50%'},
+          '100%': {backgroundPosition: '0% 50%'}
+        }
+      }}>
+        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2}}>
+          <BackButton onClick={handleClickBack}/>
+          {showInfo ? (
+              <>
+                <BloodBondTitle/>
+                <RecipientInformation insertionResult={insertionResult} insertionResult2={insertionResult2}/>
+                <Button
+                    variant="contained"
+                    sx={{
+                      mt: 2,
+                      //backgroundColor: '#BF1E2E'
+                      backgroundColor: '#BF1E2E',
+                      color: '#FFF',
+                      fontWeight: 'bold',
+                      borderRadius: '30px',
+                      fontSize: '1.125rem',
+                      textTransform: 'none',
+                      padding: '12px 24px',
+                      '&:hover': {
+                        backgroundColor: '#9E0B20',
+                        boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
+                      },
+                      '&:active': {
+                        backgroundColor: '#BF1E2E',
+                        boxShadow: 'none',
+                      },
+                      '&:focus': {
+                        boxShadow: '0px 0px 0px 3px rgba(158, 11, 32, 0.5)',
+                      },
+                    }}
+                    onClick={handleBloodRequest}
+                >
+                  Request Blood
+                </Button>
+
+              </>
+          ) : (
+              <>
+                <BloodBondTitle/>
+                <Box sx={{
+                  background: '#fff',
+                  borderRadius: '16px',
+                  p: 4,
+                  boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
+                }}>
+
+                  <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <Typography variant="h4" sx={{
+                      mt: 3,
+                      mb: 2,
+                      color: '#BF1E2E',
+                      fontWeight: 'bold',
+                      textShadow: '2px 2px 5px rgba(191, 30, 46, 0.3)',
+                    }}>
+                      Blood Request
+                    </Typography>
+
+                    <Typography variant="body1" sx={{mb: 3, color: '#4F4F4F', fontWeight: 300}}>
+                      To retrieve the recipient's information, please enter their healthcare ID in the search field
+                      below.
+                    </Typography>
+                    <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, width: '100%'}}>
+                      <TextField
+                          id="hcid"
+                          name="hcid"
+                          label="Healthcare ID"
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                          InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                  <MedicalInformationOutlinedIcon sx={{color: '#657786'}}/>
+                                </InputAdornment>
+                            )
+                          }}
+                          InputLabelProps={{
+                            sx: {
+                              color: '#657786',
+                              fontSize: '0.875rem',
+                              fontWeight: 500,
+                              letterSpacing: '0.02857em',
+                              '&.Mui-focused': {
+                                color: '#BF1E2E',
+                              },
+                            },
+                          }}
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: '30px',
+                              '& fieldset': {
+                                borderColor: '#657786',
+                              },
+                              '&:hover fieldset': {
+                                borderColor: '#D81F4F',
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: '#D81F4F',
+                                borderWidth: '2px',
+                              },
+                            },
+                            //rgb(15, 20, 25) in he
+                            '& .MuiInputBase-input': {
+                              color: '#14171A',
+                              fontSize: '0.875rem',
+                              lineHeight: 1.5,
+                              letterSpacing: '0.00938em',
+                              fontWeight: 500,
+                              paddingTop: '16.5px',
+                              paddingBottom: '16.5px',
+                              paddingLeft: '14px',
+                              paddingRight: '14px',
+                            },
+                            '&:hover .MuiSvgIcon-root': {
+                              color: '#BF1E2E',
+                            },
+                          }}
+                          value={recipient.hcid}
+                          onChange={handleChange}
+                      />
+
+                      <Button
+                          variant="contained"
+                          sx={{
+                            // backgroundColor: '#BF1E2E',
+                            backgroundImage: 'linear-gradient(135deg, #BF1E2E, #FF7F7F)',
+                            color: '#FFF',
+                            fontWeight: 'bold',
+                            borderRadius: '30px',
+                            fontSize: '1.125rem',
+                            textTransform: 'none',
+                            // padding: '15px 30px',
+                            padding: '12px 24px',
+                            margin: '10px 0px',
+                            '&:hover': {
+                              backgroundColor: '#FF7F7F',
+                              boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
+                            },
+                            '&:active': {
+                              backgroundColor: '#BF1E2E',
+                              boxShadow: 'none',
+                            },
+                            '&:focus': {
+                              boxShadow: '0px 0px 0px 3px rgba(191, 30, 46, 0.5)',
+                            },
+
+                          }}
+
+                          onClick={handleClick}
+                          fullWidth
+                      >
+                        Search
+                      </Button>
+                      {error && (
+                          <Typography variant="body2" color="error" sx={{mt: 2}}>
+                            The health care ID entered does not match our records. Please try again.
+                          </Typography>
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+
+              </>
+          )}
+        </Box>
+      </Box>
+
   );
 };
 
