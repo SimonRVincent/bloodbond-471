@@ -41,15 +41,6 @@ const LogDonation = () => {
     const handleChange = (e) => {
         setDonationHistory((prev) => ({...prev, [e.target.name]: e.target.value}));
         setBlood((prev) => ({...prev, [e.target.name]: e.target.value}));
-
-        const name = e.target.name;
-
-        if(name === "dateofdonation"){
-            const collectionDate = new Date(e.target.value);
-            const expirationDate = new Date(collectionDate);
-            expirationDate.setDate(expirationDate.getDate() + 42);
-        }
-
         setBloodInventory((prev) => ({...prev, expirationdate: expirationDate.toISOString().slice(0,10), [e.target.name]: e.target.value}));
      }
 
