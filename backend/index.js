@@ -75,6 +75,33 @@ app.post("/getMatchingRequests", (req, res) => {
   });
 });
 
+app.post("/changeBloodStatus", (req, res) => {
+  const q = "UPDATE BLOOD SET Blood_status = 'Unavailable' WHERE Blood_ID = ?";
+  const blood_id = req.body.Blood_ID;
+  console.log("Blood ID: " + blood_id);
+  db.query(q, [blood_id], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.post("/changeRequestStatus", (req, res) => {
+  const q = "UPDATE BLOOD_REQUEST SET Status = 'Fulfilled' WHERE Request_ID = ?";
+  const request_id = req.body.Request_ID;
+  console.log("Request ID: " + request_id);
+  db.query(q, [request_id], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+
 app.post("/getPerson", (req, res) => {
   const q = "SELECT * FROM PERSON WHERE HCID = ?";
   const hcid = req.body.hcid;
@@ -348,12 +375,13 @@ app.post('/checkDonorExists', (req, res) => {
 app.post('/checkRecipientExists', (req, res) => {
   const valueToCheck = req.body.valueToCheck;
   const query = `SELECT * FROM RECIPIENT WHERE HCID = ?`;
-
+  console.log("HCID: " + valueToCheck);
   db.query(query, [valueToCheck], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Server error');
     } else {
+      console.log(result);
       res.status(200).json({ exists: result.length > 0 });
     }
   });

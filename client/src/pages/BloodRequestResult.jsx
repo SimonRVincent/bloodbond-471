@@ -73,7 +73,7 @@ const BloodRequestResult = () => {
       ) : (
         <div>
           <h1>No suitable match found.</h1>
-          <h3>Your request will be stored. Check the pending requests regularly; if a matching unit of blood becomes availabe, you can schedule a transfusion.</h3>
+          <h3>Your request will be stored. Check the pending requests regularly; if a matching unit of blood becomes available, you can schedule a transfusion.</h3>
           <button onClick={goToPendingRequests}>Pending Requests</button>
           
           {error && <p>Something went wrong!</p>}
