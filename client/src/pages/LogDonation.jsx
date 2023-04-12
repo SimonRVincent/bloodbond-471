@@ -86,8 +86,9 @@ const LogDonation = () => {
         e.preventDefault();
 
         const expirationDate = new Date(donationhistory.dateofdonation);
-        expirationDate.setFullYear(expirationDate.getDate() + 42);
-        bloodinventory.expirationdate = expirationDate.toISOString().slice(0,10);
+        expirationDate.setDate(expirationDate.getDate() + 43);
+        bloodinventory.expirationdate = expirationDate.toISOString().slice(0, 10);
+        
 
         try{
             await axios.post("http://localhost:8800/addBlood", blood);
