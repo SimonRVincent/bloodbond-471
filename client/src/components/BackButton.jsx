@@ -4,7 +4,7 @@ import React from "react";
 
 export const BackButton = ({
                                onClick = () => {
-                               }
+                               },
                            }) => {
     return (
         <Button
@@ -19,7 +19,7 @@ export const BackButton = ({
                 top: "16px",
                 display: "flex",
                 alignItems: "center",
-                fontSize: "1.25rem",
+                fontSize: {xs: "1rem", sm: "1.25rem"},
             }}
         >
             <ArrowBack sx={{fontSize: "inherit", mr: 0.5}}/>

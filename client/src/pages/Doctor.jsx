@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Box, Container, Grid, Typography} from "@mui/material";
+import {Box, Container, Typography} from "@mui/material";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {BackButton} from "../components/BackButton";
@@ -48,23 +48,12 @@ const Doctor = () => {
 
   return (
       <Background>
-        <Grid container spacing={2} alignItems="center" justifyContent="center">
-          <Grid item xs={12}>
-            <BackButton onClick={handleClickBack}/>
-          </Grid>
-          <Grid item xs={12}>
-            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px'}}>
-              <BloodBondTitle/>
-            </Box>
-          </Grid>
-          <Container
-              maxWidth="sm"
-              sx={{
-                pt: 8,
-                pb: 6,
-
-              }}
-          >
+        <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+          <BackButton onClick={handleClickBack} sx={{mt: 4}}/>
+          <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 4}}>
+            <BloodBondTitle/>
+          </Box>
+          <Container maxWidth="sm" sx={{pt: 8, pb: 6}}>
             <Box sx={{borderRadius: '20px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', p: 4, bgcolor: 'white'}}>
               <Typography variant="h3" align="center" color="#B71C1C" gutterBottom sx={{fontWeight: 700, py: 1, px: 2}}>
                 Doctor Login
@@ -78,29 +67,26 @@ const Doctor = () => {
                           sx={{fontWeight: 300, mb: 2, px: 4}}>
                 Please enter your employee ID to log in to your account.
               </Typography>
-
               <IconInputField
                   label="Employee ID"
                   icon={<MedicalInformationOutlinedIcon sx={{color: '#B71C1C', fontSize: 18}}/>}
                   value={valueToCheck}
                   onChange={(e) => setValueToCheck(e.target.value)}
+                  sx={{mb: 2}}
               />
-              <Box sx={{display: 'flex', justifyContent: 'center', px: 4, py: 2}}>
-                <GradientChangingButton text="Log in" onClick={handleSubmit}/>
+              <Box sx={{display: 'flex', justifyContent: 'center', px: 4}}>
+                <GradientChangingButton text="Log in" onClick={handleSubmit} sx={{mb: 2}}/>
               </Box>
+              {checkResult !== null && (
+                  <Typography variant="body1" align="center" gutterBottom sx={{mt: 2}}>
+                    {checkResult ? 'Welcome back, Doctor! Redirecting to your account...' : 'The employee ID you entered is invalid. Please check your ID and try again.'}
+                  </Typography>
+              )}
             </Box>
           </Container>
-          {checkResult !== null && (
-              <Grid item xs={12}>
-                <Typography variant="body1" align="center" gutterBottom>
-                  {checkResult ? 'Welcome back, Doctor! Redirecting to your account...' : 'The employee ID you entered is invalid. Please check your ID and try again.'}
-                </Typography>
-              </Grid>
-          )}
-        </Grid>
-
-
+        </Box>
       </Background>
+
   );
 };
 

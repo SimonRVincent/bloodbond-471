@@ -150,43 +150,46 @@ const RegisterRecipient = () => {
   return (
       <Box bgcolor="#fff" minHeight="100vh">
         <Container maxWidth="md" sx={{py: 4}}>
-          <Grid container alignItems="center" justifyContent="space-between" spacing={2} sx={{mb: 4}}>
-            <Grid item xs={2} sm={1}>
-              <BackButton onClick={handleClickBack}/>
-            </Grid>
-            <Grid item xs={8} sm={10}>
-              <Box sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column',
-              }}>
-                <BloodBondTitle/>
-                <Typography variant="h5" sx={{
-                  fontWeight: 'bold',
-                  mt: 2,
-                  fontSize: 'calc(1.75rem + 0.5vw)',
-                  color: '#b71c1c',
-                  textShadow: '2px 2px 5px #ff9aa2'
-                }}>
-                  Register Recipient
-                </Typography>
-
-                <Typography variant="body1" sx={{fontWeight: 'bold', textAlign: 'center', mt: 2}}>
+          <Grid container justifyContent="center" spacing={2} sx={{mb: 4}}>
+            <Grid item xs={12} sm={6}>
+              <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                <BackButton onClick={handleClickBack}/>
+                <Box sx={{mb: 2}}>
+                  <BloodBondTitle/>
+                  <Typography variant="h5" sx={{
+                    fontWeight: 'bold',
+                    fontSize: 'calc(1.75rem + 0.5vw)',
+                    color: '#b71c1c',
+                    textShadow: '2px 2px 5px #ff9aa2',
+                    textAlign: 'center'
+                  }}>
+                    Register Recipient
+                  </Typography>
+                </Box>
+                <Typography variant="body1" sx={{fontWeight: 'bold', textAlign: 'center', mb: 2}}>
                   To register your patient as a recipient, please provide the patient's information in the form below.
                 </Typography>
               </Box>
+            </Grid>
 
-              <Grid container justifyContent="center" sx={{mt: 4, mb: 4}}>
-                <Grid item xs={12} md={8}>
+            <Grid item xs={10} sm={11} sx={{my: 2}}>
+              <Grid container justifyContent="center">
+                <Grid item xs={12}>
                   <form>
-                    <Typography variant="h4" sx={{mb: 4, fontWeight: 'bold', textAlign: 'center'}}>
+                    <Typography variant="h4" sx={{
+                      mb: 4,
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      '@media (max-width:600px)': {fontSize: '1.5rem'}
+                    }}>
                       Enter Recipient Information
                     </Typography>
-                    <Typography variant="h5" sx={{fontWeight: 'bold', mb: 2}}>
+                    <Typography variant="h5"
+                                sx={{fontWeight: 'bold', mb: 2, '@media (max-width:600px)': {fontSize: '1.2rem'}}}>
                       Personal Information
                     </Typography>
                     <Grid container spacing={2}>
+
                       <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
@@ -292,7 +295,11 @@ const RegisterRecipient = () => {
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        <Typography variant="h5" sx={{fontWeight: 'bold', mt: 2}}>
+                        <Typography variant="h5" sx={{
+                          fontWeight: 'bold',
+                          mt: {xs: 2, sm: 0},
+                          fontSize: {xs: '1.2rem', sm: '1.5rem'}
+                        }}>
                           Medical Information
                         </Typography>
                       </Grid>
