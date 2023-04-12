@@ -216,6 +216,103 @@ app.post("/addPerson", (req, res) => {
   });
 });
 
+app.post("/addBlood", (req,res) => {
+  const q = "INSERT INTO BLOOD (`Blood_ID`, `Blood_group`, `RH_factor`, `Blood_status`, `Red_blood_cells`, `White_blood_cells`, `Platelets`, `Blood_volume`) VALUES (?)";
+  console.log("bloodid:", req.body.bloodid);
+  const values = [
+    req.body.bloodid,
+    req.body.bloodgroup,
+    req.body.rhfactor,
+    req.body.bloodstatus,
+    req.body.redbloodcells,
+    req.body.whitebloodcells,
+    req.body.platelets,
+    req.body.bloodvolume,
+
+  ];
+
+  db.query(q, [values], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+
+});
+
+app.post("/addBloodInventory", (req,res) => {
+  const q = "INSERT INTO BLOOD_INVENTORY (`Hospital_ID`, `Blood_ID`, `Collection_date`, `Expiration_date`) VALUES (?, ?, ?, ?)";
+
+  console.log("donationdate:", req.body.dateofdonation)
+  console.log("expirationdate:", req.body.expirationdate);
+
+  
+  const values = [
+    req.body.hospitalid,
+    req.body.bloodid,
+    req.body.dateofdonation,
+    req.body.expirationdate,
+  ];
+
+  db.query(q, values, (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+
+});
+
+app.delete("/deleteinventory/:id", (req,res) => {
+  const inventoryId = req.params.id
+  console.log("delete made");
+  const q = "DELETE FROM BLOOD_INVENTORY WHERE Blood_ID = ?"
+
+  db.query(q, [inventoryId], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+
+})
+
+app.post("/addtransfusionhistory", (req,res) => {
+  const q = "INSERT INTO TRANSFUSION_HISTORY (`HCID`, `Date_of_transfusion`) VALUES (?)";
+
+  const values = [
+    req.body.hcid,
+    req.body.dateoftransfusion,
+  ];
+  db.query(q, [values], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.put("/updateblood/:id", (req,res) =>{
+  const bloodstatusId = req.params.id;
+  const q = "UPDATE BLOOD SET `Blood_status` = 'Unavailable' WHERE Blood_ID = ?";
+
+  console.log("update made");
+
+  db.query(q, [bloodstatusId], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+
+})
+
+app.post("/addDonationHistory", (req,res) => {
+  const q = "INSERT INTO DONATION_HISTORY (`HCID`, `Date_of_donation`) VALUES (?)";
+  console.log("hcid:", req.body.hcid);
+
+  const values = [
+    req.body.hcid,
+    req.body.dateofdonation,
+  ];
+
+  db.query(q, [values], (err,data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+
+});
+
 app.post("/bookAppointment", (req, res) => {
   const query = "INSERT INTO APPOINTMENT (`Confirmation_ID`, `Date`, `HCID`, `Location`, `Status`, `Time`) VALUES (?)";
 
@@ -244,30 +341,6 @@ app.post("/bookAppointment", (req, res) => {
   });
 });
 
-//AYO 2.0
-
-
-
-// app.post("/addPerson", (req, res) => {
-//   const q = "INSERT INTO PERSON(`firstname`, `lastname`, `age`, `sex`, 'dob', 'phone', 'email', 'hcid') VALUES (?)";
-
-//   const values = [
-//     req.body.firstname,
-//     req.body.lastname,
-//     req.body.age,
-//     req.body.sex,
-//     req.body.dob,
-//     req.body.phone,
-//     req.body.email,
-//     req.body.hcid,
- 
-//   ];
-
-//   db.query(q, [values], (err, data) => {
-//     if (err) return res.send(err);
-//     return res.json(data);
-//   });
-// });
 
 app.post("/addDonor", (req, res) => {
   const q = "INSERT INTO DONOR (HCID, RH_factor, Donor_stat, Blood_type) VALUES (?, ?, ?, ?)";
@@ -303,32 +376,7 @@ app.post("/addRecipient", (req, res) => {
   });
 });
 
-app.delete("/books/:id", (req, res) => {
-  const bookId = req.params.id;
-  const q = " DELETE FROM books WHERE id = ? ";
 
-  db.query(q, [bookId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
-  });
-});
-
-app.put("/books/:id", (req, res) => {
-  const bookId = req.params.id;
-  const q = "UPDATE books SET `title`= ?, `desc`= ?, `price`= ?, `cover`= ? WHERE id = ?";
-
-  const values = [
-    req.body.title,
-    req.body.desc,
-    req.body.price,
-    req.body.cover,
-  ];
-
-  db.query(q, [...values,bookId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
-  });
-});
 
 app.post('/verifyDoctor', (req, res) => {
   const valueToCheck = req.body.valueToCheck;
