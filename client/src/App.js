@@ -50,8 +50,6 @@ import RegisterRecipient from './pages/RegisterRecipient';
 import Donor from './pages/Donor';
 import DonorAppt from './pages/DonorAppt';
 import DonorDate from './pages/DonorDate';
-import Books from './pages/Books';
-import Add from './pages/Add';
 import Update from './pages/Update';
 import BloodRequest from './pages/BloodRequest';
 import BloodRequestResult from './pages/BloodRequestResult';
@@ -73,9 +71,6 @@ function App() {
                 <Route path="/Donor" element={<Donor />} />
                 <Route path="/Donor/DonorAppt" element={<DonorAppt />} />
                 <Route path="/Donor/DonorAppt/DonorDate" element={<DonorDate />} />
-                <Route path="/" element={<Books />} />
-                <Route path="/add" element={<Add />} />
-                <Route path="/update/:id" element={<Update />} />
             </Routes>
         </div>
     );
