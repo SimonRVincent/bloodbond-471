@@ -165,6 +165,7 @@ const LogTransfusion = () => {
                                 type="text"
                                 placeholder="Recipient HCID"
                                 name="hcid"
+                                sx={RedTextField}
                                 fullWidth
                                 onChange={handleChange}
                             />

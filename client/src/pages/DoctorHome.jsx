@@ -1,7 +1,14 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {Box, Grid, Typography} from "@mui/material";
-import {HistoryEdu, Inventory2Outlined, LocalHospitalOutlined, PersonAdd} from "@mui/icons-material";
+import {
+  HistoryEdu,
+  Inventory2Outlined,
+  LocalHospitalOutlined,
+  PendingActions,
+  PersonAdd,
+  WaterDrop
+} from "@mui/icons-material";
 import {BackButton} from "../components/BackButton";
 import {BloodBondTitle} from "../components/BloodBondTitle";
 import {Background} from "../components/Background";
@@ -91,6 +98,17 @@ const DoctorHome = () => {
     }
   };
 
+  const handleClickLogTransfusion = async (e) => {
+    e.preventDefault();
+    try {
+      // Go to specified page
+      navigate("/DoctorHome/LogTransfusion");
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
       <Background>
         <Grid container direction="column" alignItems="center" justifyContent="center" sx={{minHeight: "100vh"}}>
@@ -126,7 +144,7 @@ const DoctorHome = () => {
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <MenuCard
                   title="Log Donation"
-                  subtitle="Log a new blood donation from a donor and keep track of the available blood types in your inventory."
+                  subtitle="Keep track of new blood donations from donors and update the available inventory with ease."
                   icon={HistoryEdu}
                   onClick={handleClickLogDonation}
                   buttonLabel="Log Donation"
@@ -135,7 +153,7 @@ const DoctorHome = () => {
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <MenuCard
                   title="Blood Request"
-                  subtitle="Request blood for a recipient in need and track the status of the request until it is fulfilled."
+                  subtitle="Initiate a blood request on behalf of patients in need of blood transfusions."
                   icon={BloodtypeOutlinedIcon}
                   onClick={handleClickBloodReq}
                   buttonLabel="Blood Request"
@@ -153,12 +171,34 @@ const DoctorHome = () => {
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <MenuCard
                   title="Blood Inventory"
-                  subtitle="View the available blood types in your inventory and their quantities to ensure that you have enough blood to meet your patients' needs."
+                  // subtitle="View the available blood types in your inventory and their quantities to ensure that you have enough blood to meet your patients' needs."
+                  subtitle="Monitor blood inventory for adequate supply of blood types and quantities to meet patient needs."
                   icon={Inventory2Outlined}
                   onClick={handleClickBloodInv}
-                  buttonLabel="Blood Inventory"
+                  buttonLabel="View Inventory"
               />
             </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <MenuCard
+                  title="Log Transfusion"
+                  subtitle="Record blood transfusions for your patients and keep track of their medical histories."
+                  icon={WaterDrop}
+                  onClick={handleClickLogTransfusion}
+                  buttonLabel="Log Transfusion"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <MenuCard
+                  title="Pending Requests"
+                  subtitle="View the pending requests for blood donations and blood transfusions."
+                  icon={PendingActions}
+                  onClick={handlePendingRequests}
+                  buttonLabel="Pending Requests"
+              />
+            </Grid>
+
+
           </Grid>
         </Grid>
       </Background>

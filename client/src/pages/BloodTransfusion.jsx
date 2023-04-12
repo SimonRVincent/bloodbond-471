@@ -1,25 +1,12 @@
 import axios from "axios";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Container,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { BackButton } from "../components/BackButton";
-import { BloodBondTitle } from "../components/BloodBondTitle";
-import { gradientAnimation } from "../components/GradientAnimationKeyframe";
-import { RedWithGreyShadowTitle } from "../components/RedWithGreyShadowTitle";
-import { BookingButton } from "../components/BookingButton";
+import React, {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
+import {Box, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography,} from "@mui/material";
+import {BackButton} from "../components/BackButton";
+import {BloodBondTitle} from "../components/BloodBondTitle";
+import {gradientAnimation} from "../components/GradientAnimationKeyframe";
+import {RedWithGreyShadowTitle} from "../components/RedWithGreyShadowTitle";
+import {BookingButton} from "../components/BookingButton";
 
 const BloodTransfusion = () => {
   const navigate = useNavigate();
@@ -152,12 +139,12 @@ const BloodTransfusion = () => {
               align="center"
               paragraph
               sx={{
-                mt: 1,
-                fontWeight: 400,
-                fontSize: "1.2rem",
-                color: "#757575",
-                lineHeight: 1.5,
-                letterSpacing: "0.05rem",
+                  mt: 1,
+                  fontWeight: 300,
+                  fontSize: "clamp(0.875rem, 1.5vw, 1.50rem)",
+                  color: "#757575",
+                  lineHeight: 1.5,
+                  letterSpacing: "0.05rem",
               }}
             >
               Please enter your patient's health care ID and select the
@@ -172,14 +159,15 @@ const BloodTransfusion = () => {
               component="h3"
               gutterBottom
               sx={{
-                py: 2,
-                fontWeight: "bold",
-                letterSpacing: "0.5px",
-                borderBottom: "3px solid #e0242a",
-                color: "#444",
-                textTransform: "uppercase",
-                fontFamily: "Helvetica Neue,Helvetica,Arial,sans-serif",
-                textShadow: "0 1px 1px rgba(0,0,0,0.25)",
+                  py: 2,
+                  fontWeight: "bold",
+                  letterSpacing: "0.5px",
+                  borderBottom: "3px solid #e0242a",
+                  color: "#444",
+                  textTransform: "uppercase",
+                  fontFamily: "Helvetica Neue,Helvetica,Arial,sans-serif",
+                  textShadow: "0 1px 1px rgba(0,0,0,0.25)",
+                  fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)",
               }}
             >
               Appointment Details
@@ -282,39 +270,43 @@ const BloodTransfusion = () => {
                         },
                       }}
                     >
-                      {hospitals.map((hospital) => (
-                        <MenuItem key={hospital} value={hospital}>
-                          {hospital}
-                        </MenuItem>
-                      ))}
+                        {hospitals.map((hospital) => (
+                            <MenuItem key={hospital} value={hospital}>
+                                {hospital}
+                            </MenuItem>
+                        ))}
                     </Select>
                   </FormControl>
                 </Grid>
+                  <Grid
+                      item
+                      xs={12}
+                      // sm={6}
+                  >
+                      <Box
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          height="100%"
+                      >
+                          <BookingButton
+                              type="submit"
+                              variant="contained"
+                              onClick={handleClick}
+                              label={"Book Appointment"}
+                          />
+                      </Box>
+                  </Grid>
 
-                <Grid
-                  item
-                  xs={12}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    mt: 2,
-                  }}
-                >
-                  <BookingButton
-                    type="submit"
-                    label="Book Transfusion Appointment"
-                  />
-                </Grid>
-                {showInfo ? (
-                  <div>
-                    <h3>Blood to reserve for transfusion</h3>
-                    <p>
-                      Blood ID: {dataObject.Blood_ID} for Blood Request ID:{" "}
-                      {dataObject.Request_ID} for patient with HCID:{" "}
-                      {dataObject.HCID}
-                    </p>
-                  </div>
+                  {showInfo ? (
+                      <div>
+                          <h3>Blood to reserve for transfusion</h3>
+                          <p>
+                              Blood ID: {dataObject.Blood_ID} for Blood Request ID:{" "}
+                              {dataObject.Request_ID} for patient with HCID:{" "}
+                              {dataObject.HCID}
+                          </p>
+                      </div>
                 ) : (
                   <div></div>
                 )}

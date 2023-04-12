@@ -20,7 +20,7 @@ import {Box, Typography, useMediaQuery} from "@mui/material";
 export const BloodBondTitle = React.memo(() => {
     const isMobile = useMediaQuery('(max-width:600px)');
 
-    const calculatedFontSize = isMobile ? 'clamp(2.4rem, 10vw, 3.6rem)' : 'clamp(3.6rem, 6vw, 7.2rem)';
+    const calculatedFontSize = isMobile ? 'clamp(3rem, 15vw, 5rem)' : 'clamp(4rem, 6vw, 10rem)';
 
     return (
         <Box sx={{padding: '2rem'}}>
@@ -40,3 +40,6 @@ export const BloodBondTitle = React.memo(() => {
         </Box>
     );
 });
+
+
+
