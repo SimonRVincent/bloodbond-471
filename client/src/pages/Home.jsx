@@ -244,71 +244,77 @@ const Home = () => {
 
 
     return (
-        <Background>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '100vh'
-            }}>
-                <BloodBondTitle/>
-                <MainLogo/>
-                <Slogan firstWord="Every" secondWord="Drop" thirdWord="Counts"/>
-                <Box sx={{display: 'flex', justifyContent: 'center', paddingTop: '1%', paddingBottom: '2%'}}>
-                    <GradientText variant="h3">Make a difference today!</GradientText>
-                </Box>
-
-
+        <Box sx={{overflow: 'auto'}}>
+            <Background>
                 <Box sx={{
                     display: 'flex',
-                    flexDirection: {xs: 'column', md: 'row'},
-                    justifyContent: 'center',
+                    flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '1.5%'
+                    justifyContent: 'center',
+                    minHeight: '100vh'
                 }}>
-                    <Button onClick={handleClickDonor} variant="contained" sx={{
-                        width: '20vw',
-                        height: '10%',
-                        fontSize: `clamp(1rem, 2vw, 1.5rem)`,
-                        fontWeight: 600,
-                        fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-                        backgroundColor: '#B71C1C',
-                        color: '#fff',
-                        '&:hover': {
-                            backgroundColor: '#8c1313'
-                        },
-                        borderRadius: '999px',
-                        py: `clamp(5px, 2vw, 10px)`, // Responsive vertical padding
-                        my: {xs: '2%', md: 0} // Add margin space only when stacked vertically
-                    }}>
-                        <BloodtypeOutlinedIcon sx={{marginRight: '8px'}}/>
-                        Donor
-                    </Button>
+                    <BloodBondTitle/>
+                    <MainLogo/>
+                    <Slogan firstWord="Every" secondWord="Drop" thirdWord="Counts"/>
+                    <Box sx={{display: 'flex', justifyContent: 'center', paddingTop: '1%', paddingBottom: '2%'}}>
+                        <GradientText variant="h3">Make a difference today!</GradientText>
+                    </Box>
 
-                    <Button onClick={handleClickDoctor} variant="contained" sx={{
-                        width: `20vw`,
-                        height: '10%',
-                        fontSize: `clamp(1rem, 2vw, 1.5rem)`,
-                        fontWeight: 600,
-                        fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-                        backgroundColor: '#FF8A80',
-                        color: '#fff',
-                        '&:hover': {
-                            backgroundColor: '#bf5f56'
-                        },
-                        borderRadius: '999px',
-                        py: `clamp(5px, 2vw, 10px)`, // Responsive vertical padding
-                        my: {xs: '2%', md: 0} // Add margin space only when stacked vertically
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: {xs: 'column', lg: 'row'},
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: {xs: '1%', lg: '1.5%'},
+                        flexWrap: 'wrap'
                     }}>
-                        <MedicalInformationOutlinedIcon sx={{marginRight: '8px'}}/>
-                        Doctor
-                    </Button>
+                        <Button onClick={handleClickDonor} variant="contained" sx={{
+                            width: {xs: '100%', lg: '20vw'},
+                            height: '10%',
+                            fontSize: `clamp(0.75rem, 1.5vw, 1.25rem)`,
+                            fontWeight: 600,
+                            fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+                            backgroundColor: '#B71C1C',
+                            color: '#fff',
+                            '&:hover': {
+                                backgroundColor: '#8c1313'
+                            },
+                            borderRadius: '999px',
+                            py: `clamp(5px, 2vw, 10px)`, // Responsive vertical padding
+                            my: '2%' // Add margin space between buttons
+                        }}>
+                            <BloodtypeOutlinedIcon sx={{
+                                fontSize: `clamp(1rem, 2vw, 1.5rem)`,
+                                marginRight: '8px'
+                            }}/>
+                            Donor
+                        </Button>
+
+                        <Button onClick={handleClickDoctor} variant="contained" sx={{
+                            width: {xs: '100%', lg: '20vw'},
+                            height: '10%',
+                            fontSize: `clamp(0.75rem, 1.5vw, 1.25rem)`,
+                            fontWeight: 600,
+                            fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+                            backgroundColor: '#FF8A80',
+                            color: '#fff',
+                            '&:hover': {
+                                backgroundColor: '#bf5f56'
+                            },
+                            borderRadius: '999px',
+                            py: `clamp(5px, 2vw, 10px)`, // Responsive vertical padding
+                            my: '2%' // Add margin space between buttons
+                        }}>
+                            <MedicalInformationOutlinedIcon sx={{
+                                fontSize: `clamp(1rem, 2vw, 1.5rem)`,
+                                marginRight: '8px'
+                            }}/>
+                            Doctor
+                        </Button>
+                    </Box>
                 </Box>
-
-
-            </Box>
-        </Background>
+            </Background>
+        </Box>
 
 
     );

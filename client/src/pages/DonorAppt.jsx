@@ -3,7 +3,6 @@ import React, {useState} from "react";
 import {useNavigate,} from "react-router-dom";
 import {
   Box,
-  Button,
   Container,
   Divider,
   FormControl,
@@ -22,6 +21,7 @@ import {
 import {BackButton} from "../components/BackButton";
 import {BloodBondTitle} from "../components/BloodBondTitle";
 import {Cancel, FemaleOutlined, MaleOutlined} from "@mui/icons-material";
+import {BloodButton} from "../components/BloodButton";
 
 const EligibilityRequirements = () => {
   const requirements = [
@@ -33,36 +33,37 @@ const EligibilityRequirements = () => {
     "Have a history of intravenous drug use"
   ];
 
+
   return (
       <Box sx={{mt: 3.5}}>
-        <Typography variant="h5" sx={{fontWeight: 'bold'}}>
+        <Typography variant="h5" sx={{fontWeight: 'bold', fontSize: {xs: '1.5rem', md: '2rem'}}}>
           Eligibility Requirements
         </Typography>
         <Divider sx={{mt: 2, mb: 2}}/>
-        <Typography variant="body1" sx={{mt: 1.5}}>
+        <Typography variant="body1" sx={{mt: 1.5, fontSize: {xs: '1rem', md: '1.2rem'}}}>
           Please keep in mind that you are ineligible to donate if any of the following apply to you:
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{mt: 2}}>
           <Grid item xs={12} md={6}>
-            <List sx={{pl: 3}}>
+            <List sx={{pl: {xs: 1, md: 3}}}>
               {requirements.slice(0, 3).map((req, index) => (
                   <ListItem key={index}>
                     <ListItemIcon>
                       <Cancel color="error"/>
                     </ListItemIcon>
-                    <ListItemText primary={req}/>
+                    <ListItemText primary={req} sx={{fontSize: {xs: '0.9rem', md: '1rem'}}}/>
                   </ListItem>
               ))}
             </List>
           </Grid>
           <Grid item xs={12} md={6}>
-            <List sx={{pl: 3}}>
+            <List sx={{pl: {xs: 1, md: 3}}}>
               {requirements.slice(3).map((req, index) => (
                   <ListItem key={index}>
                     <ListItemIcon>
                       <Cancel color="error"/>
                     </ListItemIcon>
-                    <ListItemText primary={req}/>
+                    <ListItemText primary={req} sx={{fontSize: {xs: '0.9rem', md: '1rem'}}}/>
                   </ListItem>
               ))}
             </List>
@@ -71,6 +72,7 @@ const EligibilityRequirements = () => {
       </Box>
   );
 };
+
 
 const DonorAppt = () => {
 
@@ -175,17 +177,12 @@ const DonorAppt = () => {
   return (
       <Box bgcolor="#fff" minHeight="100vh">
         <Container maxWidth="md" sx={{py: 4}}>
-          <Grid container alignItems="center" justifyContent="space-between" spacing={2} sx={{mb: 4}}>
+          <Grid container justifyContent="space-between" spacing={2} sx={{alignItems: 'center', mb: 4}}>
             <Grid item xs={2} sm={1}>
               <BackButton onClick={handleClickBack}/>
             </Grid>
-            <Grid item xs={8} sm={10}>
-              <Box sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column',
-              }}>
+            <Grid item xs={10} sm={11}>
+              <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
                 <BloodBondTitle/>
                 <Typography variant="h5" sx={{
                   fontWeight: 'bold',
@@ -196,19 +193,19 @@ const DonorAppt = () => {
                 }}>
                   Donor Registration
                 </Typography>
-
                 <Typography variant="body1" sx={{fontWeight: 'bold', textAlign: 'center', mt: 2}}>
                   Thank you for your interest in donating blood. Please fill out the form below to register as a donor.
                 </Typography>
               </Box>
               <EligibilityRequirements/>
-              <Grid container justifyContent="center" sx={{mt: 4, mb: 4}}>
+
+              <Grid container justifyContent="center" spacing={2} sx={{mt: 1}}>
                 <Grid item xs={12} md={8}>
                   <form>
-                    <Typography variant="h4" sx={{mb: 4, fontWeight: 'bold', textAlign: 'center'}}>
+                    <Typography variant="h4" sx={{mb: {xs: 2, sm: 4}, fontWeight: 'bold', textAlign: 'center'}}>
                       Enter Donor Information
                     </Typography>
-                    <Typography variant="h5" sx={{fontWeight: 'bold', mb: 2}}>
+                    <Typography variant="h5" sx={{fontWeight: 'bold', mb: {xs: 2, sm: 4}}}>
                       Personal Information
                     </Typography>
                     <Grid container spacing={2}>
@@ -348,30 +345,31 @@ const DonorAppt = () => {
                       </Grid>
                     </Grid>
                     <Box my={4} display="flex" justifyContent="center">
-                      <Button
-                          variant="contained"
-                          color="primary"
-                          size="large"
-                          onClick={handleClick}
-                          sx={{
-                            borderRadius: "9999px",
-                            bgcolor: "#b71c1c", // Blood red color code
-                            color: "#fff",
-                            textTransform: "none",
-                            fontWeight: 700,
-                            boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)",
-                            transition: "all 0.3s ease",
-                            "&:hover": {
-                              bgcolor: "#8c1b1b", // Darker shade of blood red
-                              boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.16)",
-                            },
-                            "@media (max-width: 600px)": {
-                              width: "100%",
-                            },
-                          }}
-                      >
-                        Continue to Booking
-                      </Button>
+                      {/*<Button*/}
+                      {/*    variant="contained"*/}
+                      {/*    color="primary"*/}
+                      {/*    size="large"*/}
+                      {/*    onClick={handleClick}*/}
+                      {/*    sx={{*/}
+                      {/*      borderRadius: "9999px",*/}
+                      {/*      bgcolor: "#b71c1c", // Blood red color code*/}
+                      {/*      color: "#fff",*/}
+                      {/*      textTransform: "none",*/}
+                      {/*      fontWeight: 700,*/}
+                      {/*      boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)",*/}
+                      {/*      transition: "all 0.3s ease",*/}
+                      {/*      "&:hover": {*/}
+                      {/*        bgcolor: "#8c1b1b", // Darker shade of blood red*/}
+                      {/*        boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.16)",*/}
+                      {/*      },*/}
+                      {/*      "@media (max-width: 600px)": {*/}
+                      {/*        width: "100%",*/}
+                      {/*      },*/}
+                      {/*    }}*/}
+                      {/*>*/}
+                      {/*  Continue to Booking*/}
+                      {/*</Button>*/}
+                      <BloodButton onClick={handleClick} children={"Continue to Booking"}/>
                     </Box>
                     {error && (
                         <Typography variant="body1" color="error">

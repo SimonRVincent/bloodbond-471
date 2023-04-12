@@ -18,7 +18,7 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/");
+      navigate("/");
 
     } catch (err) {
       console.log(err);
@@ -29,8 +29,8 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome/RegisterRecipient");
-       
+      navigate("/DoctorHome/RegisterRecipient");
+
     } catch (err) {
       console.log(err);
     }
@@ -40,8 +40,8 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome/LogDonation");
-       
+      navigate("/DoctorHome/LogDonation");
+
     } catch (err) {
       console.log(err);
     }
@@ -51,8 +51,8 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome/BloodRequest");
-       
+      navigate("/DoctorHome/BloodRequest");
+
     } catch (err) {
       console.log(err);
     }
@@ -62,8 +62,8 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome/BloodTransfusion");
-       
+      navigate("/DoctorHome/BloodTransfusion");
+
     } catch (err) {
       console.log(err);
     }
@@ -73,8 +73,8 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome/BloodInventory");
-       
+      navigate("/DoctorHome/BloodInventory");
+
     } catch (err) {
       console.log(err);
     }
@@ -84,8 +84,8 @@ const DoctorHome = () => {
     e.preventDefault();
     try {
       // Go to specified page
-        navigate("/DoctorHome/PendingRequests");
-        
+      navigate("/DoctorHome/PendingRequests");
+
     } catch (err) {
       console.log(err);
     }
@@ -98,8 +98,6 @@ const DoctorHome = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            padding: "1rem",
-            width: "100%"
           }}>
             <BackButton onClick={handleClickBack}/>
           </Grid>
@@ -114,8 +112,9 @@ const DoctorHome = () => {
               </Typography>
             </Box>
           </Grid>
-          <Grid item container spacing={2} justifyContent="center">
-            <Grid item>
+          <Grid item container spacing={{xs: 2, md: 6}} justifyContent="center"
+                sx={{mt: "2rem", px: {xs: "1rem", sm: "2rem", md: "4rem"}}}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <MenuCard
                   title="Register Recipient"
                   subtitle="Register a new recipient to receive blood donations and save their information for future reference."
@@ -124,7 +123,7 @@ const DoctorHome = () => {
                   buttonLabel="Register Recipient"
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <MenuCard
                   title="Log Donation"
                   subtitle="Log a new blood donation from a donor and keep track of the available blood types in your inventory."
@@ -133,7 +132,7 @@ const DoctorHome = () => {
                   buttonLabel="Log Donation"
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <MenuCard
                   title="Blood Request"
                   subtitle="Request blood for a recipient in need and track the status of the request until it is fulfilled."
@@ -142,7 +141,7 @@ const DoctorHome = () => {
                   buttonLabel="Blood Request"
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <MenuCard
                   title="Book Transfusion"
                   subtitle="Book a blood transfusion for a recipient and schedule a time and date for the procedure."
@@ -151,7 +150,7 @@ const DoctorHome = () => {
                   buttonLabel="Book Transfusion"
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <MenuCard
                   title="Blood Inventory"
                   subtitle="View the available blood types in your inventory and their quantities to ensure that you have enough blood to meet your patients' needs."

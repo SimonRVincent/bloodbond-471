@@ -6,6 +6,7 @@ export const Background = styled(Grid)(({theme}) => ({
     left: 0,
     width: '100vw',
     height: '100vh',
+    overflow: 'auto',
     background: 'linear-gradient(-120deg, #ff4f5a, #dc3545, #8b0000, #ffffff, #ffc0cb, #ff69b4)',
     backgroundSize: '800% 800%',
     animation: '$colorChange 10s ease infinite',
