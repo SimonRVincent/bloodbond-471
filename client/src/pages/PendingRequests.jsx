@@ -59,11 +59,13 @@ const PendingRequests = () => {
     }
   };
 
-  const handleBookTransfusion = async (e, requestId) => {
+  const handleBookTransfusion = async (e, Request_ID, Blood_ID, HCID) => {
     e.preventDefault();
+    const dataObject = { Request_ID, Blood_ID, HCID };
     try {
       // Book transfusion
-      console.log(`Booking transfusion for request ID ${requestId}`);
+      console.log(`Booking transfusion for request ID ${Request_ID}`);
+      navigate(`/DoctorHome/BloodTransfusion?data=${JSON.stringify(dataObject)}`);
     } catch (err) {
       console.log(err);
     }
@@ -100,7 +102,7 @@ const PendingRequests = () => {
     <p>Blood ID: {matchingBlood.Blood_ID}</p>
     <p>Blood Type: {matchingBlood.Blood_group}</p>
     <p>RH Factor: {matchingBlood.RH_factor}</p>
-    <button onClick={(e) => handleBookTransfusion(e, request.Request_ID)}>Book Transfusion</button>
+    <button onClick={(e) => handleBookTransfusion(e, request.Request_ID, matchingBlood.Blood_ID, request.HCID)}>Book Transfusion</button>
   </div>
 ))}
 
