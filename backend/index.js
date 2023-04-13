@@ -343,18 +343,21 @@ app.post("/bookAppointment", (req, res) => {
 
 
 app.post("/addDonor", (req, res) => {
-  const q = "INSERT INTO DONOR (HCID, RH_factor, Donor_stat, Blood_type) VALUES (?, ?, ?, ?)";
-
+  const q = "INSERT INTO DONOR ('HCID', 'RH_factor', 'Donor_stat', 'Blood_type') VALUES (?, ?, ?, ?)";
+  console.log("reached");
   const values = [
     req.body.hcid,
     req.body.rhfactor,
-    req.body.donorstat,
-    req.body.blood_type,
+    0,
+    req.body.bloodtype,
  
   ];
+  console.log(req.body);
 
   db.query(q, [values], (err, data) => {
+    console.log(values);
     if (err) return res.send(err);
+    console.log(res.json(data));
     return res.json(data);
   });
 });
