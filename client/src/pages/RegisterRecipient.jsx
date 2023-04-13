@@ -309,7 +309,7 @@ const RegisterRecipient = () => {
                             label="Health Care ID"
                             variant="outlined"
                             required
-                            name="healthcareid"
+                            name="hcid"
                             value={person.hcid}
                             onChange={handleChange}
                         />
